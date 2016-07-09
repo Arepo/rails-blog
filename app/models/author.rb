@@ -1,3 +1,5 @@
 class Author < ApplicationRecord
-  has_many :posts
+
+  has_many :contributions
+  has_many :posts, through: :contributions
 end

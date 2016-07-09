@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe Author do
+describe Post do
 
   it { should have_many :contributions }
-  it { should have_many :posts }
+  it { should have_many :authors }
 end
