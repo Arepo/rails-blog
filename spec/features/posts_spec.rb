@@ -2,15 +2,25 @@ require "rails_helper"
 
 describe "Posts" do
   describe "Creating a post" do
-    scenario "can create a post" do
+    before do
       visit "/"
       click_link "New post"
+    end
+
+    scenario "can create a post" do
       fill_in "Title", with: "Some gibberish"
       fill_in "Body", with: "Some more gibberish"
       click_button "Create Post"
       expect(page).to have_content "Some gibberish"
       expect(page).to have_content "Some more gibberish"
       expect(Post.count).to eq 1
+    end
+
+    scenario "cannot create a post with an empty title" do
+      fill_in "Body", with: "Some gibberish"
+      click_button "create Post"
+      expect(page).to have_content "Post must include title."
+      expect(Post.count).to eq 0
     end
   end
 
