@@ -19,15 +19,17 @@ describe "Posts" do
     scenario "cannot create a post with an empty title" do
       fill_in "Body", with: "Gibberish without title"
       click_button "Create Post"
-      expect(page).to have_content "Post must include title."
+      p '$$$$$$'
+      p Post.count
       expect(Post.count).to eq 0
+      expect(page).to have_content "Post must include title."
     end
 
     scenario "cannot create a post with an empty body" do
       fill_in "Title", with: "Gibberish without body"
       click_button "Create Post"
-      expect(page).to have_content "Post cannot be empty."
       expect(Post.count).to eq 0
+      expect(page).to have_content "Post cannot be empty."
     end
   end
 
