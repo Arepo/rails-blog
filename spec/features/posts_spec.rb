@@ -1,6 +1,29 @@
 require "rails_helper"
 
 describe "Posts" do
+  describe "Viewing posts" do
+    let(:title1) { "This one weird title will blow your mind" }
+    let(:title2) { "Mind blown. Blog ends here" }
+    let(:yesterday) { yesterday = Date.today - 1.day }
+
+    before do
+
+      FactoryGirl.create(:post, title: title1)
+      FactoryGirl.create(:post, title: title2, created_at: yesterday)
+      visit "/"
+    end
+
+    scenario "All post titles and creation dates are displayed" do
+      [title1, title2].each do |title|
+        expect(page).to have_text title
+      end
+
+      [Date.today, yesterday].each do |date|
+        expect(page).to have_text date
+      end
+    end
+  end
+
   describe "Creating a post" do
     before do
       visit "/"
