@@ -31,7 +31,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
-
+  gem 'pry-rails'
 end
 
 group :test do
@@ -40,7 +40,6 @@ group :test do
   gem 'shoulda-matchers'
   gem 'factory_girl_rails'
   gem 'faker'
-  gem 'pry-rails'
   gem 'launchy'
 end
 
