@@ -58,7 +58,6 @@ describe "Posts" do
       fill_in "Body", with: ""
       click_button  "Save changes"
       expect(page).to have_content "Body can't be blank"
-      expect(page).to have_content post.title
     end
   end
 
@@ -76,6 +75,18 @@ describe "Posts" do
       [Date.today, yesterday].each do |date|
         expect(page).to have_text date
       end
+    end
+  end
+
+  describe "Viewing a single post" do
+    let!(:post) { FactoryGirl.create(:post) }
+
+    scenario "Navigating from the index page" do
+      visit "/"
+
+      click_link post.title
+      expect(page).to have_content post.title
+      expect(page).to have_link "Edit post"
     end
   end
 
