@@ -88,7 +88,7 @@ describe "Posts" do
     end
 
     scenario "removes it from the db" do
-      expext(current_path).to eq "/"
+      expect(current_path).to eq "/"
       expect(Post.count).to eq 0
     end
   end
