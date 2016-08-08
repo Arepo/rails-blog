@@ -35,6 +35,28 @@ describe "Posts" do
     end
   end
 
+  describe "Editing a post" do
+    let!(:post) { FactoryGirl.create(:post, body: "I'm the black knight! I'm invincible!") }
+
+    before do
+      visit post_path(post)
+      click_link "Edit post"
+    end
+
+    scenario "successfully" do
+      fill_in "Body", with: "How appropriate. You fight like a cow."
+      click_button "Save changes"
+      expect(page).to have_content "How appropriate. You fight like a cow."
+    end
+
+    scenario "unsuccessfully" do
+      fill_in "Body", with: ""
+      click_button  "Save changes"
+      expect(page).to have_content "Body can't be blank"
+      expect(page).to have_content "I'm the black knight! I'm invincible!"
+    end
+  end
+
   describe "Displaying all posts" do
     let!(:post_1) { FactoryGirl.create(:post) }
     let!(:post_2) { FactoryGirl.create(:post, created_at: yesterday) }
