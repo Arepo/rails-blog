@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   def index
-    @posts = Post.all
+    @topics = Topic.all
   end
 
   def new
@@ -8,6 +8,7 @@ class PostsController < ApplicationController
   end
 
   def create
+# binding.pry
     @post = Post.new(post_params)
 
     if @post.save
@@ -45,6 +46,6 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :body)
+    params.require(:post).permit(:title, :body, :topic_id)
   end
 end

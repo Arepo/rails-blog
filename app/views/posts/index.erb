@@ -1,10 +1,19 @@
 <%= link_to("New post", new_post_path) %>
 
-<ul>
-  <% @posts.each do |post| %>
-    <li>
-      <p><%= link_to post.title, post_path(post) %></p>
-      <p><%= "Posted on #{post.international_date}" %></p>
-    </li>
-  <% end %>
-</ul>
+<% @topics.each do |topic| %>
+  <div id="<%= topic.parameterized_title %>">
+    <h2><%= topic.title %></h2>
+    <ul>
+      <% topic.posts.each do |post| %>
+        <li>
+          <p><%= link_to post.title, post_path(post) %></p>
+          <p><%= "Posted on #{post.international_date}" %></p>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+
+
+

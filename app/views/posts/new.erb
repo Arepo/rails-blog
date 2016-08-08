@@ -7,5 +7,9 @@
   <%= f.label :body %>
   <%= f.text_field :body %>
 
+  <div id="topic-select">
+    <%= f.collection_select :topic_id, Topic.all, :id, :title %>
+  </div>
+
   <%= f.submit %>
 <% end %>
