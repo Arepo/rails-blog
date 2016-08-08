@@ -36,11 +36,16 @@ describe "Posts" do
   end
 
   describe "Editing a post" do
-    let!(:post) { FactoryGirl.create(:post, body: "I'm the black knight! I'm invincible!") }
+    let(:post) { FactoryGirl.create(:post, body: "I'm the black knight! I'm invincible!") }
 
     before do
       visit post_path(post)
       click_link "Edit post"
+    end
+
+    scenario "Viewing current content" do
+      expect(page).to have_content post.title
+      expect(page).to have_content post.body
     end
 
     scenario "successfully" do
@@ -53,7 +58,7 @@ describe "Posts" do
       fill_in "Body", with: ""
       click_button  "Save changes"
       expect(page).to have_content "Body can't be blank"
-      expect(page).to have_content "I'm the black knight! I'm invincible!"
+      expect(page).to have_content post.title
     end
   end
 

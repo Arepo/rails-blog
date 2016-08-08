@@ -1,0 +1,13 @@
+<%= form_for @post do |f| %>
+  <%= render 'error_messages' %>
+
+  <p><%= f.label :title %></p>
+  <p><%= @post.title %></p>
+  <p><%= f.text_field :title %></p>
+
+  <p><%= f.label :body %></p>
+  <p><%= @post.body %></p>
+  <p><%= f.text_field :body %></p>
+
+  <%= f.submit "Save changes" %>
+<% end %>
