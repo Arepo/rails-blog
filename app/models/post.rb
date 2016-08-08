@@ -9,6 +9,6 @@ class Post < ApplicationRecord
   validates :body, presence: true
 
   def international_date
-    created_at.to_date.to_formatted_s :db
+    created_at.to_date
   end
 end

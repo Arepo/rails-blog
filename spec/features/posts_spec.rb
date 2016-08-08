@@ -62,18 +62,26 @@ describe "Posts" do
   end
 
   describe "Displaying all posts" do
-    let!(:post_1) { FactoryGirl.create(:post) }
-    let!(:post_2) { FactoryGirl.create(:post, created_at: yesterday) }
+    let!(:post_1) { FactoryGirl.create(:post, topic: topic_1) }
+    let(:topic_1) { FactoryGirl.create(:topic) }
+
+    let!(:post_2) { FactoryGirl.create(:post, topic: topic_2, created_at: yesterday) }
+    let!(:topic_2) { FactoryGirl.create(:topic) }
     let(:yesterday) { Date.today - 1.day }
 
-    scenario "All post titles and creation dates are displayed" do
+    before do
       visit "/"
+    end
 
-      expect(page).to have_content post_1.title
-      expect(page).to have_content post_2.title
+    scenario "All post titles and creation dates are listed under a primary topic heading" do
+      within("#{topic_1.title.parameterize}") do
+        expect(page).to have_content post_1.title
+        expect(page).to have_text Date.today
+      end
 
-      [Date.today, yesterday].each do |date|
-        expect(page).to have_text date
+      within("#{topic_2.title.parameterize}") do
+        expect(page).to have_content post_2.title
+        expect(page).to have_text yesterday
       end
     end
   end
