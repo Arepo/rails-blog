@@ -78,4 +78,18 @@ describe "Posts" do
       end
     end
   end
+
+  describe "Deleting a post" do
+    let(:post) { FactoryGirl.create(:post) }
+
+    before do
+      visit post_path(post)
+      click_link "Delete post"
+    end
+
+    scenario "removes it from the db" do
+      expext(current_path).to eq "/"
+      expect(Post.count).to eq 0
+    end
+  end
 end
