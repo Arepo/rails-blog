@@ -9,13 +9,6 @@
   </head>
 
   <body>
-    <div id="flashes">
-      <% flash.each do |_, value| %>
-        <% value.each do |message| %>
-          <p><%= message %></p>
-        <% end %>
-      <% end %>
-    </div>
     <%= yield %>
   </body>
 </html>
