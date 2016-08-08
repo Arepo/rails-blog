@@ -1,6 +1,7 @@
 class Post < ApplicationRecord
+  # Added fields: body, title
 
-  has_many :contributions
+  has_many :contributions, dependent: :destroy
   has_many :authors, through: :contributions
   has_many :posts_tags
   has_many :tags, through: :posts_tags
