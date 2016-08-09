@@ -10,13 +10,10 @@ describe "Posts" do
     end
 
     context "successfully" do
-
-
       scenario "with all fields filled in" do
         fill_in "Title", with: "Some gibberish"
         fill_in "Body", with: "Some more gibberish"
-
-        find('#topic-select').select topic_1.title
+        fill_in "Topic", with: topic_1.title
         click_button "Create Post"
 
         expect(page).to have_content "Some gibberish"

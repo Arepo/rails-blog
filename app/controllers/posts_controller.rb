@@ -8,36 +8,38 @@ class PostsController < ApplicationController
   end
 
   def create
-# binding.pry
-    @post = Post.new(post_params)
+    topic = Topic.find_or_create_by title: post_params[:topic]
+    post_params[:topic] = topic
+
+    @post = Post.new post_params
 
     if @post.save
-      redirect_to post_path(@post)
+      redirect_to post_path @post
     else
       render 'new'
     end
   end
 
   def show
-    @post = Post.find(params[:id])
+    @post = Post.find params[:id]
   end
 
   def edit
-    @post = Post.find(params[:id])
+    @post = Post.find params[:id]
   end
 
   def update
-    @post = Post.find(params[:id])
+    @post = Post.find params[:id]
 
-    if @post.update(post_params)
-      redirect_to post_path(@post)
+    if @post.update post_params
+      redirect_to post_path @post
     else
       render 'edit'
     end
   end
 
   def destroy
-    @post = Post.find(params[:id])
+    @post = Post.find params[:id]
 
     @post.destroy
     redirect_to '/'
@@ -46,6 +48,6 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :body, :topic_id)
+    @post_params ||= params.require(:post).permit :title, :body, :topic
   end
 end
