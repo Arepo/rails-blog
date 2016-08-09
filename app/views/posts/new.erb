@@ -7,14 +7,9 @@
   <%= f.label :body %>
   <%= f.text_field :body %>
 
-  <%= f.label :topic %>
-  <%= f.text_field :topic, list: 'topic-select' %>
-  <datalist id="topic-select">
-    <%= Topic.all.each do |topic| %>
-      <option value="<%= topic.title %>"></option>
-    <% end %>
-  </datalist>
-    <%#= f.collection_select :topic_id, Topic.all, :id, :title %>
+  <div id="topic-select">
+    <%= f.collection_select :topic_id, Topic.all, :id, :title %>
+  </div>
 
   <%= f.submit %>
 <% end %>
