@@ -10,17 +10,25 @@ describe "Posts" do
     end
 
     context "successfully" do
-
-
-      scenario "with all fields filled in" do
+      scenario "with all fields filled in, using existing topic" do
         fill_in "Title", with: "Some gibberish"
         fill_in "Body", with: "Some more gibberish"
-
         find('#topic-select').select topic_1.title
         click_button "Create Post"
 
-        expect(page).to have_content "Some gibberish"
-        expect(page).to have_content "Some more gibberish"
+        expect(page.text).to include "Some gibberish", "Some more gibberish"
+        expect(Post.count).to eq 1
+      end
+
+      scenario "with all fields filled in, creating a new topic" do
+        fill_in "Title", with: "Some gibberish"
+        fill_in "Body", with: "Some more gibberish"
+        fill_in "New topic", with: "Something terribly profound"
+        click_button "Create Post"
+
+        expect(page.text).to include "Some gibberish",
+                                     "Some more gibberish",
+                                     "Something terribly profound"
         expect(Post.count).to eq 1
       end
     end

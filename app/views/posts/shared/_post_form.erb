@@ -1,0 +1,21 @@
+<%= form_for @post do |f| %>
+  <%= render 'error_messages' %>
+
+  <%= f.label :title %>
+  <%= f.text_field :title %>
+
+  <%= f.label :body %>
+  <%= f.text_field :body %>
+
+  <%= f.label :topic_title %>
+  <%= f.text_field :topic_title, list: 'topic-select' %>
+  <datalist id="topic-select">
+    <%= Topic.all.each do |topic| %>
+
+      <option value="<%= topic.title %>"></option>
+    <% end %>
+  </datalist>
+    <%#= f.collection_select :topic_id, Topic.all, :id, :title %>
+
+  <%= f.submit %>
+<% end %>
