@@ -16,8 +16,7 @@ describe "Posts" do
         fill_in "Topic", with: topic_1.title
         click_button "Create Post"
 
-        expect(page).to have_content "Some gibberish"
-        expect(page).to have_content "Some more gibberish"
+        expect(page.text).to include "Some gibberish", "Some more gibberish"
         expect(Post.count).to eq 1
       end
     end
@@ -42,7 +41,7 @@ describe "Posts" do
   end
 
   describe "Editing a post" do
-    let(:post) { FactoryGirl.create(:post, body: "I'm the black knight! I'm invincible!") }
+    let(:post) { FactoryGirl.create(:post) }
 
     before do
       visit post_path(post)
@@ -55,9 +54,14 @@ describe "Posts" do
     end
 
     scenario "successfully" do
+      fill_in "Title", with: "I am the Black Knight! I am invincible!"
       fill_in "Body", with: "How appropriate. You fight like a cow."
+      fill_in "Topic", with: "Famous historical battles"
       click_button "Save changes"
-      expect(page).to have_content "How appropriate. You fight like a cow."
+
+      expect(page.text).to include "I am the Black Knight! I am invincible!",
+                                   "How appropriate. You fight like a cow.",
+                                   "Famous historical battles"
     end
 
     scenario "unsuccessfully" do
