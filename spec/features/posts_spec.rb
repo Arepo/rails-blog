@@ -30,16 +30,16 @@ describe "Posts" do
           find('#topic-select').select ur_post.topic
           click_button "Create Post"
 
-          expect(page.text).to include "Some gibberish", "Some more gibberish", ur_post.topic
+          expect(page.text).to include "Some gibberish",
+                                       "Some more gibberish",
+                                       ur_post.topic
           expect(Post.count).to eq 2
         end
       end
     end
 
     context "unsuccessfully" do
-      before do
-        visit new_post_path
-      end
+      before { visit new_post_path }
 
       scenario "with fields missing" do
         click_button "Create Post"
@@ -66,9 +66,14 @@ describe "Posts" do
     end
 
     scenario "successfully" do
+      fill_in "Title", with: "I am the Black Knight! I am invincible!"
       fill_in "Body", with: "How appropriate. You fight like a cow."
+      fill_in "Topic", with: "Famous historical battles"
       click_button "Save changes"
-      expect(page).to have_content "How appropriate. You fight like a cow."
+
+      expect(page.text).to include "I am the Black Knight! I am invincible!",
+                                   "How appropriate. You fight like a cow.",
+                                   "Famous historical battles"
     end
 
     scenario "unsuccessfully" do
@@ -84,11 +89,10 @@ describe "Posts" do
     let!(:post_2) do
       FactoryGirl.create(:post, topic: "Dreaming of electric sheep", created_at: yesterday)
     end
+
     let(:yesterday) { Date.today - 1.day }
 
-    before do
-      visit "/"
-    end
+    before { visit "/" }
 
     scenario "All post titles and creation dates are listed under a primary topic heading" do
       within("#blade-running") do
