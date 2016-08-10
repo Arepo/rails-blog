@@ -5,10 +5,11 @@
   <%= f.text_field :title %>
 
   <%= f.label :body %>
-  <%= f.text_field :body %>
+  <%= f.text_area :body %>
 
   <div id="topic-select">
-    <%= f.select :topic, Post.topics %>
+    <%= f.label :choose_from_existing_topics %>
+    <%= f.select :topic, Post.topics, include_blank: true %>
   </div>
 
   <%= f.label :new_topic %>
