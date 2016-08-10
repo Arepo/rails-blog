@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  before_action :resolve_topic, only: [:create, :update]
+
   def index
     @topics = Post.topics
   end
@@ -8,10 +10,6 @@ class PostsController < ApplicationController
   end
 
   def create
-    # TODO use JS to ensure params can't include both topic and new topic
-    topic = post_params.delete(:new_topic)
-    post_params[:topic] = topic if topic.present?
-
     @post = Post.new(post_params)
 
     if @post.save
@@ -47,6 +45,12 @@ class PostsController < ApplicationController
   end
 
   private
+
+  def resolve_topic
+    # TODO use JS to ensure params can't include both topic and new topic
+    topic = post_params.delete(:new_topic)
+    post_params[:topic] = topic if topic.present?
+  end
 
   def post_params
     @post_params ||= params.require(:post).permit(:title, :body, :topic, :new_topic)

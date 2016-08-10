@@ -56,20 +56,14 @@ describe "Posts" do
     let(:post) { FactoryGirl.create(:post, body: "I'm the black knight! I'm invincible!") }
 
     before do
-      visit post_path(post)
-      click_link "Edit post"
-    end
-
-    scenario "Viewing current content" do
-      expect(page).to have_content post.title
-      expect(page).to have_content post.body
+      visit edit_post_path(post)
     end
 
     scenario "successfully" do
       fill_in "Title", with: "I am the Black Knight! I am invincible!"
       fill_in "Body", with: "How appropriate. You fight like a cow."
-      fill_in "Topic", with: "Famous historical battles"
-      click_button "Save changes"
+      fill_in "New topic", with: "Famous historical battles"
+      click_button "Update Post"
 
       expect(page.text).to include "I am the Black Knight! I am invincible!",
                                    "How appropriate. You fight like a cow.",
@@ -78,7 +72,7 @@ describe "Posts" do
 
     scenario "unsuccessfully" do
       fill_in "Body", with: ""
-      click_button  "Save changes"
+      click_button  "Update Post"
       expect(page).to have_content "Body can't be blank"
     end
   end

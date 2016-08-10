@@ -1,0 +1,18 @@
+<%= form_for @post do |f| %>
+  <%= render 'error_messages' %>
+
+  <%= f.label :title %>
+  <%= f.text_field :title %>
+
+  <%= f.label :body %>
+  <%= f.text_field :body %>
+
+  <div id="topic-select">
+    <%= f.select :topic, Post.topics %>
+  </div>
+
+  <%= f.label :new_topic %>
+  <input type="text" name="post[new_topic]" id="post_new_topic">
+
+  <%= f.submit %>
+<% end %>
