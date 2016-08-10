@@ -1,13 +1,10 @@
-module FeatureHelpers
+module PostFeatureHelpers
   def when_i_create_a_post
     visit new_post_path
   end
 
-  def and_i_fill_in_all_the_fields
-    fill_in "Title", with: "I am the Black Knight! I am invincible!"
-    fill_in "Body", with: "How appropriate. You fight like a cow."
-    fill_in "New topic", with: "Famous historical battles"
-
+  def and_i_submit_all_the_fields
+    and_i_fill_in_all_the_fields
     and_submit_the_post
   end
 
@@ -27,18 +24,27 @@ module FeatureHelpers
     click_button clickee
   end
 
+  def and_i_fill_in_all_the_fields
+    fill_in "Title", with: "I am the Black Knight! I am invincible!"
+    fill_in "Body", with: "How appropriate. You fight like a cow."
+    fill_in "New topic", with: "Famous historical battles"
+  end
+
 #####
 
   def given_a_post_already_exists
     post_1
   end
 
+  def and_i_submit_an_existing_topic
+    and_i_select_an_existing_topic
+    and_submit_the_post
+  end
+
   def and_i_select_an_existing_topic
     fill_in "Title", with: "Some gibberish"
     fill_in "Body", with: "Some more gibberish"
     find('#topic-select').select Post.first.topic
-
-    and_submit_the_post
   end
 
   def post_1

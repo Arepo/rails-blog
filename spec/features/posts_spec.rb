@@ -6,7 +6,7 @@ describe "Posts", type: :feature do
       context "with new topic" do
         scenario "with all fields filled in, creating a new topic" do
           when_i_create_a_post
-          and_i_fill_in_all_the_fields
+          and_i_submit_all_the_fields
           then_the_page_should_display_the_post
           and_the_post_count_should_now_be(1)
         end
@@ -16,7 +16,7 @@ describe "Posts", type: :feature do
         scenario "with all fields filled in, using existing topic" do
           given_a_post_already_exists
           when_i_create_a_post
-          and_i_select_an_existing_topic
+          and_i_submit_an_existing_topic
           then_the_page_should_display_the_post
           and_the_post_count_should_now_be(2)
         end
@@ -37,7 +37,7 @@ describe "Posts", type: :feature do
     scenario "successfully" do
       given_a_post_already_exists
       when_i_edit_a_post
-      and_i_fill_in_all_the_fields
+      and_i_submit_all_the_fields
       then_the_page_should_display_the_post
     end
 
