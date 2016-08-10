@@ -2,33 +2,14 @@ require "rails_helper"
 
 describe "Posts" do
   describe "Creating a post" do
-
-    before do
-      visit "/"
-      click_link "New post"
-    end
-
     context "successfully" do
-
-      context "in existing topic" do
-        let!(:ur_post) { FactoryGirl.create :post }
-
-        scenario "with all fields filled in, using existing topic" do
-          fill_in "Title", with: "Some gibberish"
-          fill_in "Body", with: "Some more gibberish"
-          find('#topic-select').select ur_post.topic
-          click_button "Create Post"
-
-          expect(page.text).to include "Some gibberish", "Some more gibberish", ur_post.topic
-          expect(Post.count).to eq 2
-        end
-      end
-
       context "with new topic" do
         scenario "with all fields filled in, creating a new topic" do
+          visit new_post_path
           fill_in "Title", with: "Some gibberish"
           fill_in "Body", with: "Some more gibberish"
-          fill_in "New topic", with: "Something terribly profound"
+          fill_in 'New topic', with: "Something terribly profound"
+
           click_button "Create Post"
 
           expect(page.text).to include "Some gibberish",
@@ -37,23 +18,36 @@ describe "Posts" do
           expect(Post.count).to eq 1
         end
       end
+
+      context "in existing topic" do
+        let!(:ur_post) { FactoryGirl.create :post }
+
+        scenario "with all fields filled in, using existing topic" do
+          visit new_post_path
+          fill_in "Title", with: "Some gibberish"
+          fill_in "Body", with: "Some more gibberish"
+
+          find('#topic-select').select ur_post.topic
+          click_button "Create Post"
+
+          expect(page.text).to include "Some gibberish", "Some more gibberish", ur_post.topic
+          expect(Post.count).to eq 2
+        end
+      end
     end
 
     context "unsuccessfully" do
-      scenario "with an empty title" do
-        fill_in "Body", with: "Gibberish without title"
-        click_button "Create Post"
-
-        expect(Post.count).to eq 0
-        expect(page).to have_content "Title can't be blank"
+      before do
+        visit new_post_path
       end
 
-      scenario "cannot create a post with an empty body" do
-        fill_in "Title", with: "Gibberish without body"
+      scenario "with fields missing" do
         click_button "Create Post"
 
         expect(Post.count).to eq 0
-        expect(page).to have_content "Body can't be blank"
+        expect(page.text).to include "Title can't be blank",
+                                     "Body can't be blank",
+                                     "Topic can't be blank"
       end
     end
   end
@@ -85,9 +79,11 @@ describe "Posts" do
   end
 
   describe "Displaying all posts" do
-    let!(:post_1) { FactoryGirl.create(:post) }
+    let!(:post_1) { FactoryGirl.create(:post, topic: "Blade running") }
 
-    let!(:post_2) { FactoryGirl.create(:post, created_at: yesterday) }
+    let!(:post_2) do
+      FactoryGirl.create(:post, topic: "Dreaming of electric sheep", created_at: yesterday)
+    end
     let(:yesterday) { Date.today - 1.day }
 
     before do

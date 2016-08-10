@@ -8,7 +8,10 @@ class PostsController < ApplicationController
   end
 
   def create
-# binding.pry
+    # TODO use JS to ensure params can't include both topic and new topic
+    topic = post_params.delete(:new_topic)
+    post_params[:topic] = topic if topic.present?
+
     @post = Post.new(post_params)
 
     if @post.save
@@ -46,6 +49,6 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :body, :topic_id)
+    @post_params ||= params.require(:post).permit(:title, :body, :topic, :new_topic)
   end
 end

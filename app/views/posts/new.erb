@@ -11,5 +11,8 @@
     <%= f.select :topic, Post.topics %>
   </div>
 
+  <%= f.label :new_topic %>
+  <input type="text" name="post[new_topic]" id="post_new_topic">
+
   <%= f.submit %>
 <% end %>
