@@ -2,6 +2,7 @@ class PostsController < ApplicationController
   before_action :resolve_topic, only: [:create, :update]
 
   def index
+    @tags = Tag.names
     @topics = Post.topics
   end
 

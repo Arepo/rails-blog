@@ -14,6 +14,9 @@
   </div>
 <% end %>
 
-
-
-
+<div id="tags">
+  <h3>View posts by tag</h2>
+  <% @tags.each do |tag| %>
+    <span><%= tag %></span>
+  <% end %>
+</div>
