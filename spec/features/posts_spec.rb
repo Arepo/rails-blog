@@ -1,29 +1,6 @@
 require "rails_helper"
 
 describe "Posts" do
-  def when_i_create_a_post
-    visit new_post_path
-  end
-
-  def and_i_fill_in_all_the_fields
-    fill_in "Title", with: "I am the Black Knight! I am invincible!"
-    fill_in "Body", with: "How appropriate. You fight like a cow."
-    fill_in "New topic", with: "Famous historical battles"
-  end
-
-  def when_i_edit_a_post
-    visit edit_post_path(post)
-  end
-
-  def then_the_page_should_display_the_post
-    clickee = current_path.include?('edit') ? 'Update Post' : 'Create Post'
-    click_button clickee
-
-    expect(page.text).to include "I am the Black Knight! I am invincible!",
-                                 "How appropriate. You fight like a cow.",
-                                 "Famous historical battles"
-  end
-
   describe "Creating a post" do
     context "successfully" do
       context "with new topic" do
@@ -31,8 +8,7 @@ describe "Posts" do
           when_i_create_a_post
           and_i_fill_in_all_the_fields
           then_the_page_should_display_the_post
-
-          expect(Post.count).to eq 1
+          and_the_post_count_should_now_be(1)
         end
       end
 
@@ -50,7 +26,7 @@ describe "Posts" do
           expect(page.text).to include "Some gibberish",
                                        "Some more gibberish",
                                        ur_post.topic
-          expect(Post.count).to eq 2
+          and_the_post_count_should_now_be(2)
         end
       end
     end
@@ -60,7 +36,7 @@ describe "Posts" do
         when_i_create_a_post
         click_button "Create Post"
 
-        expect(Post.count).to eq 0
+        and_the_post_count_should_now_be(0)
         expect(page.text).to include "Title can't be blank",
                                      "Body can't be blank",
                                      "Topic can't be blank"
@@ -131,7 +107,34 @@ describe "Posts" do
 
     scenario "removes it from the db" do
       expect(current_path).to eq "/"
-      expect(Post.count).to eq 0
+      and_the_post_count_should_now_be(0)
     end
+  end
+
+  def when_i_create_a_post
+    visit new_post_path
+  end
+
+  def and_i_fill_in_all_the_fields
+    fill_in "Title", with: "I am the Black Knight! I am invincible!"
+    fill_in "Body", with: "How appropriate. You fight like a cow."
+    fill_in "New topic", with: "Famous historical battles"
+  end
+
+  def when_i_edit_a_post
+    visit edit_post_path(post)
+  end
+
+  def then_the_page_should_display_the_post
+    clickee = current_path.include?('edit') ? 'Update Post' : 'Create Post'
+    click_button clickee
+
+    expect(page.text).to include "I am the Black Knight! I am invincible!",
+                                 "How appropriate. You fight like a cow.",
+                                 "Famous historical battles"
+  end
+
+  def and_the_post_count_should_now_be(num)
+    expect(Post.count).to eq num
   end
 end
