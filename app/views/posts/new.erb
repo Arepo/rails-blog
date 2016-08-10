@@ -8,7 +8,7 @@
   <%= f.text_field :body %>
 
   <div id="topic-select">
-    <%= f.collection_select :topic_id, Topic.all, :id, :title %>
+    <%= f.select :topic, Post.topics %>
   </div>
 
   <%= f.submit %>

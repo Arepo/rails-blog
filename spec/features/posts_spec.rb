@@ -2,7 +2,6 @@ require "rails_helper"
 
 describe "Posts" do
   describe "Creating a post" do
-    let!(:topic_1) { FactoryGirl.create(:topic) }
 
     before do
       visit "/"
@@ -10,26 +9,33 @@ describe "Posts" do
     end
 
     context "successfully" do
-      scenario "with all fields filled in, using existing topic" do
-        fill_in "Title", with: "Some gibberish"
-        fill_in "Body", with: "Some more gibberish"
-        find('#topic-select').select topic_1.title
-        click_button "Create Post"
 
-        expect(page.text).to include "Some gibberish", "Some more gibberish"
-        expect(Post.count).to eq 1
+      context "in existing topic" do
+        let!(:ur_post) { FactoryGirl.create :post }
+
+        scenario "with all fields filled in, using existing topic" do
+          fill_in "Title", with: "Some gibberish"
+          fill_in "Body", with: "Some more gibberish"
+          find('#topic-select').select ur_post.topic
+          click_button "Create Post"
+
+          expect(page.text).to include "Some gibberish", "Some more gibberish", ur_post.topic
+          expect(Post.count).to eq 2
+        end
       end
 
-      scenario "with all fields filled in, creating a new topic" do
-        fill_in "Title", with: "Some gibberish"
-        fill_in "Body", with: "Some more gibberish"
-        fill_in "New topic", with: "Something terribly profound"
-        click_button "Create Post"
+      context "with new topic" do
+        scenario "with all fields filled in, creating a new topic" do
+          fill_in "Title", with: "Some gibberish"
+          fill_in "Body", with: "Some more gibberish"
+          fill_in "New topic", with: "Something terribly profound"
+          click_button "Create Post"
 
-        expect(page.text).to include "Some gibberish",
-                                     "Some more gibberish",
-                                     "Something terribly profound"
-        expect(Post.count).to eq 1
+          expect(page.text).to include "Some gibberish",
+                                       "Some more gibberish",
+                                       "Something terribly profound"
+          expect(Post.count).to eq 1
+        end
       end
     end
 
@@ -79,11 +85,9 @@ describe "Posts" do
   end
 
   describe "Displaying all posts" do
-    let!(:post_1) { FactoryGirl.create(:post, topic: topic_1) }
-    let(:topic_1) { FactoryGirl.create(:topic, title: "Blade running") }
+    let!(:post_1) { FactoryGirl.create(:post) }
 
-    let!(:post_2) { FactoryGirl.create(:post, topic: topic_2, created_at: yesterday) }
-    let!(:topic_2) { FactoryGirl.create(:topic, title: "Dreaming of electric sheep") }
+    let!(:post_2) { FactoryGirl.create(:post, created_at: yesterday) }
     let(:yesterday) { Date.today - 1.day }
 
     before do
