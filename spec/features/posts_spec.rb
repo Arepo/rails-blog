@@ -1,20 +1,37 @@
 require "rails_helper"
 
 describe "Posts" do
+  def when_i_create_a_post
+    visit new_post_path
+  end
+
+  def and_i_fill_in_all_the_fields
+    fill_in "Title", with: "I am the Black Knight! I am invincible!"
+    fill_in "Body", with: "How appropriate. You fight like a cow."
+    fill_in "New topic", with: "Famous historical battles"
+  end
+
+  def when_i_edit_a_post
+    visit edit_post_path(post)
+  end
+
+  def then_the_page_should_display_the_post
+    clickee = current_path.include?('edit') ? 'Update Post' : 'Create Post'
+    click_button clickee
+
+    expect(page.text).to include "I am the Black Knight! I am invincible!",
+                                 "How appropriate. You fight like a cow.",
+                                 "Famous historical battles"
+  end
+
   describe "Creating a post" do
     context "successfully" do
       context "with new topic" do
         scenario "with all fields filled in, creating a new topic" do
-          visit new_post_path
-          fill_in "Title", with: "Some gibberish"
-          fill_in "Body", with: "Some more gibberish"
-          fill_in 'New topic', with: "Something terribly profound"
+          when_i_create_a_post
+          and_i_fill_in_all_the_fields
+          then_the_page_should_display_the_post
 
-          click_button "Create Post"
-
-          expect(page.text).to include "Some gibberish",
-                                       "Some more gibberish",
-                                       "Something terribly profound"
           expect(Post.count).to eq 1
         end
       end
@@ -23,7 +40,7 @@ describe "Posts" do
         let!(:ur_post) { FactoryGirl.create :post }
 
         scenario "with all fields filled in, using existing topic" do
-          visit new_post_path
+          when_i_create_a_post
           fill_in "Title", with: "Some gibberish"
           fill_in "Body", with: "Some more gibberish"
 
@@ -39,9 +56,8 @@ describe "Posts" do
     end
 
     context "unsuccessfully" do
-      before { visit new_post_path }
-
       scenario "with fields missing" do
+        when_i_create_a_post
         click_button "Create Post"
 
         expect(Post.count).to eq 0
@@ -55,22 +71,14 @@ describe "Posts" do
   describe "Editing a post" do
     let(:post) { FactoryGirl.create(:post, body: "I'm the black knight! I'm invincible!") }
 
-    before do
-      visit edit_post_path(post)
-    end
-
     scenario "successfully" do
-      fill_in "Title", with: "I am the Black Knight! I am invincible!"
-      fill_in "Body", with: "How appropriate. You fight like a cow."
-      fill_in "New topic", with: "Famous historical battles"
-      click_button "Update Post"
-
-      expect(page.text).to include "I am the Black Knight! I am invincible!",
-                                   "How appropriate. You fight like a cow.",
-                                   "Famous historical battles"
+      when_i_edit_a_post
+      and_i_fill_in_all_the_fields
+      then_the_page_should_display_the_post
     end
 
     scenario "unsuccessfully" do
+      when_i_edit_a_post
       fill_in "Body", with: ""
       click_button  "Update Post"
       expect(page).to have_content "Body can't be blank"
