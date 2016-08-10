@@ -27,28 +27,28 @@ describe "Posts" do
       scenario "with fields missing" do
         when_i_create_a_post
         and_submit_the_post
+        then_the_page_should_display_errors
         and_the_post_count_should_now_be(0)
-        expect(page.text).to include "Title can't be blank",
-                                     "Body can't be blank",
-                                     "Topic can't be blank"
       end
     end
   end
 
   describe "Editing a post" do
-    let(:post) { FactoryGirl.create(:post, body: "I'm the black knight! I'm invincible!") }
+    # let(:post) { FactoryGirl.create(:post, body: "I'm the black knight! I'm invincible!") }
 
     scenario "successfully" do
+      given_a_post_already_exists
       when_i_edit_a_post
       and_i_fill_in_all_the_fields
       then_the_page_should_display_the_post
     end
 
     scenario "unsuccessfully" do
+      given_a_post_already_exists
       when_i_edit_a_post
-      fill_in "Body", with: ""
-      click_button  "Update Post"
-      expect(page).to have_content "Body can't be blank"
+      and_i_remove_fields
+      and_submit_the_post
+      then_the_page_should_display_errors
     end
   end
 
@@ -102,6 +102,12 @@ describe "Posts" do
     end
   end
 
+  def and_i_remove_fields
+    fill_in "Title", with: ""
+    fill_in "Body", with: ""
+    find('#topic-select').select ""
+  end
+
   def given_a_post_already_exists
     FactoryGirl.create :post
   end
@@ -117,6 +123,8 @@ describe "Posts" do
 
     and_submit_the_post
   end
+
+  let(:post) { Post.last }
 
   def when_i_edit_a_post
     visit edit_post_path(post)
@@ -144,5 +152,11 @@ describe "Posts" do
   def and_submit_the_post
     clickee = current_path.include?('edit') ? 'Update Post' : 'Create Post'
     click_button clickee
+  end
+
+  def then_the_page_should_display_errors
+    expect(page.text).to include "Title can't be blank",
+                                 "Body can't be blank",
+                                 "Topic can't be blank"
   end
 end
