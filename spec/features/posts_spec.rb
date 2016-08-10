@@ -13,19 +13,11 @@ describe "Posts" do
       end
 
       context "in existing topic" do
-        let!(:ur_post) { FactoryGirl.create :post }
-
         scenario "with all fields filled in, using existing topic" do
+          given_a_post_already_exists
           when_i_create_a_post
-          fill_in "Title", with: "Some gibberish"
-          fill_in "Body", with: "Some more gibberish"
-
-          find('#topic-select').select ur_post.topic
-          click_button "Create Post"
-
-          expect(page.text).to include "Some gibberish",
-                                       "Some more gibberish",
-                                       ur_post.topic
+          and_i_select_an_existing_topic
+          then_the_page_should_display_the_post
           and_the_post_count_should_now_be(2)
         end
       end
@@ -34,8 +26,7 @@ describe "Posts" do
     context "unsuccessfully" do
       scenario "with fields missing" do
         when_i_create_a_post
-        click_button "Create Post"
-
+        and_submit_the_post
         and_the_post_count_should_now_be(0)
         expect(page.text).to include "Title can't be blank",
                                      "Body can't be blank",
@@ -111,6 +102,10 @@ describe "Posts" do
     end
   end
 
+  def given_a_post_already_exists
+    FactoryGirl.create :post
+  end
+
   def when_i_create_a_post
     visit new_post_path
   end
@@ -119,6 +114,8 @@ describe "Posts" do
     fill_in "Title", with: "I am the Black Knight! I am invincible!"
     fill_in "Body", with: "How appropriate. You fight like a cow."
     fill_in "New topic", with: "Famous historical battles"
+
+    and_submit_the_post
   end
 
   def when_i_edit_a_post
@@ -126,15 +123,26 @@ describe "Posts" do
   end
 
   def then_the_page_should_display_the_post
-    clickee = current_path.include?('edit') ? 'Update Post' : 'Create Post'
-    click_button clickee
-
-    expect(page.text).to include "I am the Black Knight! I am invincible!",
-                                 "How appropriate. You fight like a cow.",
-                                 "Famous historical battles"
+    post = Post.last
+    expect(page.text).to include post.title,
+                                 post.topic,
+                                 post.body
   end
 
   def and_the_post_count_should_now_be(num)
     expect(Post.count).to eq num
+  end
+
+  def and_i_select_an_existing_topic
+    fill_in "Title", with: "Some gibberish"
+    fill_in "Body", with: "Some more gibberish"
+    find('#topic-select').select Post.first.topic
+
+    and_submit_the_post
+  end
+
+  def and_submit_the_post
+    clickee = current_path.include?('edit') ? 'Update Post' : 'Create Post'
+    click_button clickee
   end
 end
