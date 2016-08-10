@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Posts" do
+describe "Posts", type: :feature do
   describe "Creating a post" do
     context "successfully" do
       context "with new topic" do
@@ -34,8 +34,6 @@ describe "Posts" do
   end
 
   describe "Editing a post" do
-    # let(:post) { FactoryGirl.create(:post, body: "I'm the black knight! I'm invincible!") }
-
     scenario "successfully" do
       given_a_post_already_exists
       when_i_edit_a_post
@@ -53,63 +51,28 @@ describe "Posts" do
   end
 
   describe "Displaying all posts" do
-    let!(:post_1) { FactoryGirl.create(:post, topic: "Blade running") }
-
-    let!(:post_2) do
-      FactoryGirl.create(:post, topic: "Dreaming of electric sheep", created_at: yesterday)
-    end
-
-    let(:yesterday) { Date.today - 1.day }
-
-    before { visit "/" }
 
     scenario "All post titles and creation dates are listed under a primary topic heading" do
-      within("#blade-running") do
-        expect(page).to have_content post_1.title
-        expect(page).to have_text Date.today
-      end
-
-      within("#dreaming-of-electric-sheep") do
-        expect(page).to have_content post_2.title
-        expect(page).to have_text yesterday
-      end
+      given_multiple_posts_exist
+      when_i_visit_the_homepage
+      then_i_should_see_each_post_listed_under_its_topic
     end
   end
 
   describe "Viewing a single post" do
-    let!(:post) { FactoryGirl.create(:post) }
-
     scenario "Navigating from the index page" do
-      visit "/"
-
-      click_link post.title
-      expect(page).to have_content post.title
-      expect(page).to have_link "Edit post"
+      given_a_post_already_exists
+      when_i_visit_the_homepage
+      then_i_should_be_able_to_navigate_to_the_post
     end
   end
 
   describe "Deleting a post" do
-    let(:post) { FactoryGirl.create(:post) }
-
-    before do
-      visit post_path(post)
-      click_link "Delete post"
-    end
-
     scenario "removes it from the db" do
-      expect(current_path).to eq "/"
-      and_the_post_count_should_now_be(0)
+      given_a_post_already_exists
+      when_i_view_the_post
+      then_i_should_be_able_to_delete_it
     end
-  end
-
-  def and_i_remove_fields
-    fill_in "Title", with: ""
-    fill_in "Body", with: ""
-    find('#topic-select').select ""
-  end
-
-  def given_a_post_already_exists
-    FactoryGirl.create :post
   end
 
   def when_i_create_a_post
@@ -124,12 +87,6 @@ describe "Posts" do
     and_submit_the_post
   end
 
-  let(:post) { Post.last }
-
-  def when_i_edit_a_post
-    visit edit_post_path(post)
-  end
-
   def then_the_page_should_display_the_post
     post = Post.last
     expect(page.text).to include post.title,
@@ -141,6 +98,19 @@ describe "Posts" do
     expect(Post.count).to eq num
   end
 
+  def and_submit_the_post
+    clickee = current_path.include?('edit') ? 'Update Post' : 'Create Post'
+    click_button clickee
+  end
+
+#####
+
+  def given_a_post_already_exists
+    post_1
+  end
+
+  let(:post_1) { FactoryGirl.create(:post, topic: "Blade running") }
+
   def and_i_select_an_existing_topic
     fill_in "Title", with: "Some gibberish"
     fill_in "Body", with: "Some more gibberish"
@@ -149,14 +119,69 @@ describe "Posts" do
     and_submit_the_post
   end
 
-  def and_submit_the_post
-    clickee = current_path.include?('edit') ? 'Update Post' : 'Create Post'
-    click_button clickee
-  end
+####
 
   def then_the_page_should_display_errors
     expect(page.text).to include "Title can't be blank",
                                  "Body can't be blank",
                                  "Topic can't be blank"
+  end
+
+####
+
+  def when_i_edit_a_post
+    visit edit_post_path(post_1)
+  end
+
+  def and_i_remove_fields
+    fill_in "Title", with: ""
+    fill_in "Body", with: ""
+    find('#topic-select').select ""
+  end
+
+####
+
+  def given_multiple_posts_exist
+    post_1
+    post_2
+  end
+
+  def when_i_visit_the_homepage
+    visit root_path
+  end
+
+  def then_i_should_see_each_post_listed_under_its_topic
+    within("#blade-running") do
+      expect(page).to have_content post_1.title
+      expect(page).to have_text Date.today
+    end
+
+    within("#dreaming-of-electric-sheep") do
+      expect(page).to have_content post_2.title
+      expect(page).to have_text yesterday
+    end
+  end
+
+  let(:yesterday) { Date.today - 1.day }
+  let(:post_2) { FactoryGirl.create(:post, topic: "Dreaming of electric sheep", created_at: yesterday) }
+
+####
+
+  def then_i_should_be_able_to_navigate_to_the_post
+    click_link post_1.title
+    expect(page).to have_content post_1.title
+    expect(page).to have_link "Edit post"
+  end
+
+####
+
+  def when_i_view_the_post
+    visit post_path(post_1)
+  end
+
+  def then_i_should_be_able_to_delete_it
+    click_link "Delete post"
+    expect(current_path).to eq "/"
+    and_the_post_count_should_now_be(0)
   end
 end
