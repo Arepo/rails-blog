@@ -59,6 +59,7 @@ class PostsController < ApplicationController
   end
 
   def tags
+    # TODO Address to_a deprication
     tags = params[:tags].select { |k,v| v == '1' }.to_a
     new_tags = params[:tags][:new_tags].split(',').map(&:strip)
     tags | new_tags

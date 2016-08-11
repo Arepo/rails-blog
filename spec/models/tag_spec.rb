@@ -13,6 +13,10 @@ describe Tag do
     expect(tag.to_s).to eq 'horace the tag'
   end
 
+  it "searches for a downcased equivalent of passed in string" do
+    tag = Tag.create()
+  end
+
   context "covering for shoulda-matchers' dubious logic" do
     it "Validates the presence of name" do
       tag = Tag.new
