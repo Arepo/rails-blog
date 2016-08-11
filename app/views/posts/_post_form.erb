@@ -15,5 +15,10 @@
   <%= f.label :new_topic %>
   <input type="text" name="post[new_topic]" id="post_new_topic">
 
+  <%= fields_for :tags do |tag_fields| %>
+    <%= tag_fields.label :new_tags %>
+    <%= tag_fields.text_area :new_tags %>
+  <% end %>
+
   <%= f.submit %>
 <% end %>

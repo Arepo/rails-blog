@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "Tags" do
+describe "Tags", type: :feature do
 
   context "Home page" do
     scenario "Displaying all tags" do
@@ -26,13 +26,13 @@ describe "Tags" do
 ####
 
   def and_i_submit_new_tags
-    fill_in 'New tags', with: "Tag! You're it!"
+    fill_in 'New tags', with: "Tag!, You're it!"
     and_submit_the_post
   end
 
   def then_those_tags_should_be_associated_with_the_post
-    expect(Post.last.tags.pluck(:name)).to include "Tag!",
-                                                   "You're",
-                                                   "it!"
+    tags = Post.last.tags.pluck(:name)
+    expect(tags).to include "tag!",
+                            "you're it!"
   end
 end

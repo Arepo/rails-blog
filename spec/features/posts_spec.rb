@@ -51,7 +51,6 @@ describe "Posts", type: :feature do
   end
 
   describe "Displaying all posts" do
-
     scenario "All post titles and creation dates are listed under a primary topic heading" do
       given_multiple_posts_exist
       when_i_visit_the_homepage
