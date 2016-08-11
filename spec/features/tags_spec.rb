@@ -21,8 +21,17 @@ describe "Tags", type: :feature do
     given_tags_exist
     when_i_create_a_post
     and_i_fill_in_all_the_fields
-    and_i_select_multiple_tags
+    and_i_submit_multiple_tags
     then_those_tags_should_be_associated_with_the_post
+  end
+
+  scenario "Trying to create an existing tag" do
+    given_tags_exist
+    when_i_create_a_post
+    and_i_fill_in_all_the_fields
+    and_i_try_to_submit_existing_tags
+    then_those_tags_should_be_associated_with_the_post
+    but_no_new_tags_should_be_created
   end
 
   def then_i_should_see_all_their_tags
@@ -51,12 +60,21 @@ describe "Tags", type: :feature do
     FactoryGirl.create :tag, name: "you're it!"
   end
 
-  def and_i_select_multiple_tags
+  def and_i_submit_multiple_tags
     name_1 = Tag.first.name
     name_2 = Tag.last.name
 
     check "tags_#{name_1}"
     check "tags_#{name_2}"
     and_submit_the_post
+  end
+
+  def and_i_try_to_submit_existing_tags
+    fill_in 'New tags', with: "Tag!, You're it!"
+    and_submit_the_post
+  end
+
+  def but_no_new_tags_should_be_created
+    expect(Tag.count).to be 2
   end
 end
