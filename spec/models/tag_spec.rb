@@ -8,6 +8,11 @@ describe Tag do
     expect(tag.name).to eq 'tag o shaaaame'
   end
 
+  it "represents itself by its name" do
+    tag = Tag.new(name: 'horace the tag')
+    expect(tag.to_s).to eq 'horace the tag'
+  end
+
   context "covering for shoulda-matchers' dubious logic" do
     it "Validates the presence of name" do
       tag = Tag.new

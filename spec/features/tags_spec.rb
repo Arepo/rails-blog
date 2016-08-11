@@ -18,11 +18,11 @@ describe "Tags", type: :feature do
   end
 
   scenario "Reusing a tag when creating a post" do
-    given_a_tag_exists
+    given_tags_exist
     when_i_create_a_post
     and_i_fill_in_all_the_fields
-    and_i_select_an_existing_tag
-    then_that_tag_should_be_associated_with_the_post
+    and_i_select_multiple_tags
+    then_those_tags_should_be_associated_with_the_post
   end
 
   def then_i_should_see_all_their_tags
@@ -46,15 +46,17 @@ describe "Tags", type: :feature do
 
 ####
 
-  def given_a_tag_exists
-    FactoryGirl.create :tag
+  def given_tags_exist
+    FactoryGirl.create :tag, name: "tag!"
+    FactoryGirl.create :tag, name: "you're it!"
   end
 
-  def and_i_select_an_existing_tag
-    find('#tag-select').select Tag.last.name
-  end
+  def and_i_select_multiple_tags
+    name_1 = Tag.first.name
+    name_2 = Tag.last.name
 
-  def then_that_tag_should_be_associated_with_the_post
-    expect(Post.last.tags).to include Tag.last
+    check "tags_#{name_1}"
+    check "tags_#{name_2}"
+    and_submit_the_post
   end
 end

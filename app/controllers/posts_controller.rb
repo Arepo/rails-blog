@@ -59,7 +59,8 @@ class PostsController < ApplicationController
   end
 
   def tags
-    tags = params[:tags][:new_tags].split(',')
-    tags.map(&:strip)
+    tags = params[:tags].select { |k,v| v == '1' }.to_a
+    new_tags = params[:tags][:new_tags].split(',').map(&:strip)
+    tags | new_tags
   end
 end

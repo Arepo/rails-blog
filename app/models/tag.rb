@@ -12,6 +12,10 @@ class Tag < ApplicationRecord
     pluck(:name)
   end
 
+  def to_s
+    name
+  end
+
   private
 
   def downcase_name

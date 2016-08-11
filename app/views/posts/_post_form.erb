@@ -16,6 +16,14 @@
   <input type="text" name="post[new_topic]" id="post_new_topic">
 
   <%= fields_for :tags do |tag_fields| %>
+    <div id="tag-select">
+    <!-- TODO - figure out why f.select doesn't seem to work with multiple: true -->
+      Existing tags:
+      <% Tag.names.each do |tag| %>
+        <p><%= tag_fields.check_box tag %><%= tag %></p>
+      <% end %>
+    </div>
+
     <%= tag_fields.label :new_tags %>
     <%= tag_fields.text_area :new_tags %>
   <% end %>
