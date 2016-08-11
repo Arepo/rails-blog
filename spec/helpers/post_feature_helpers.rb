@@ -121,4 +121,8 @@ module PostFeatureHelpers
     expect(current_path).to eq "/"
     and_the_post_count_should_now_be(0)
   end
+
+  def and_see_confirmation_of_the_deletion
+    expect(page).to have_content "#{post_1.title} has been deleted"
+  end
 end

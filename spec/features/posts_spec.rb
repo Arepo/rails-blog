@@ -71,6 +71,7 @@ describe "Posts", type: :feature do
       given_a_post_already_exists
       when_i_view_the_post
       then_i_should_be_able_to_delete_it
+      and_see_confirmation_of_the_deletion
     end
   end
 end
