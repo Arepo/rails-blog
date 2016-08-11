@@ -17,6 +17,14 @@ describe "Tags", type: :feature do
     then_those_tags_should_be_associated_with_the_post
   end
 
+  scenario "Reusing a tag when creating a post" do
+    given_a_tag_exists
+    when_i_create_a_post
+    and_i_fill_in_all_the_fields
+    and_i_select_an_existing_tag
+    then_that_tag_should_be_associated_with_the_post
+  end
+
   def then_i_should_see_all_their_tags
     tags = Tag.names
 
@@ -31,8 +39,22 @@ describe "Tags", type: :feature do
   end
 
   def then_those_tags_should_be_associated_with_the_post
-    tags = Post.last.tags.pluck(:name)
+    tags = Post.last.tags.pluck :name
     expect(tags).to include "tag!",
                             "you're it!"
+  end
+
+####
+
+  def given_a_tag_exists
+    FactoryGirl.create :tag
+  end
+
+  def and_i_select_an_existing_tag
+    find('#tag-select').select Tag.last.name
+  end
+
+  def then_that_tag_should_be_associated_with_the_post
+    expect(Post.last.tags).to include Tag.last
   end
 end
