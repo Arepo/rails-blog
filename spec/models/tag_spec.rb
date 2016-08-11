@@ -14,7 +14,8 @@ describe Tag do
   end
 
   it "searches for a downcased equivalent of passed in string" do
-    tag = Tag.create()
+    tag = Tag.create(name: 'cappy')
+    expect(Tag.with_name('CAPPY')).to include tag
   end
 
   context "covering for shoulda-matchers' dubious logic" do

@@ -8,6 +8,8 @@ class Tag < ApplicationRecord
 
   before_validation :downcase_name
 
+  scope :with_name, -> (name) { where name: name.downcase }
+
   def self.names
     pluck(:name)
   end

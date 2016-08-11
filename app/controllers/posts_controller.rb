@@ -14,7 +14,7 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
 
     if @post.save
-      tags.each { |tag| Tag.where(name: tag).first_or_create.posts << @post }
+      tags.each { |tag| Tag.with_name(tag).first_or_create.posts << @post }
       redirect_to post_path(@post)
     else
       render 'new'
@@ -59,8 +59,8 @@ class PostsController < ApplicationController
   end
 
   def tags
-    # TODO Address to_a deprication
-    tags = params[:tags].select { |k,v| v == '1' }.to_a
+    # TODO Maybe move this logic to the Tag class
+    tags = params[:tags].select { |k,v| v == '1' }.keys
     new_tags = params[:tags][:new_tags].split(',').map(&:strip)
     tags | new_tags
   end
