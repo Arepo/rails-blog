@@ -21,15 +21,15 @@ describe Author do
   end
 
   context "Validating uniqueness of email (twice)" do
-    before { FactoryGirl.create :author, email: 'First_come@first_serv.edu' }
+    before { FactoryGirl.create :author, email: 'First-come@first-serv.edu' }
 
     it "validates at Rails level" do
-      author = FactoryGirl.build(:author, email: "first_come@first_serv.edu")
+      author = FactoryGirl.build(:author, email: "first-come@first-serv.edu")
       expect(author).not_to be_valid
     end
 
     it "validates at database level" do
-      author = FactoryGirl.build(:author, email: "first_come@first_serv.edu")
+      author = FactoryGirl.build(:author, email: "first-come@first-serv.edu")
       expect { author.save validate: false }.to raise_error ActiveRecord::RecordNotUnique
     end
   end
