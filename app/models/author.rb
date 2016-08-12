@@ -20,6 +20,6 @@ class Author < ApplicationRecord
   private
 
   def downcase_email
-    self.email = email.downcase
+    self.email.downcase!
   end
 end
