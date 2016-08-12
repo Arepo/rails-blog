@@ -2,6 +2,8 @@ class Author < ApplicationRecord
 
   EMAIL_REGEX = /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
 
+  has_secure_password
+
   has_many :contributions, dependent: :destroy
   has_many :posts, through: :contributions
 

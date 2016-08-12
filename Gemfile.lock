@@ -40,6 +40,7 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.4.0)
     arel (7.0.0)
+    bcrypt (3.1.10)
     builder (3.2.2)
     capybara (2.7.1)
       addressable
@@ -201,6 +202,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt (~> 3.1.7)
   capybara
   coffee-rails (~> 4.2)
   factory_girl_rails
