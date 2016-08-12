@@ -14,4 +14,10 @@ describe Author do
     expect(author).not_to be_valid
     expect(author.errors[:email]).to include('Your email is bad and you should feel bad')
   end
+
+  it "auto-downcases emails before saving" do
+    author = FactoryGirl.create(:author, email: "C@seby.Case")
+    author.save
+    expect(author.email).to eq "c@seby.case"
+  end
 end
