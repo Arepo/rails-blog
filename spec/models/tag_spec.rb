@@ -36,5 +36,5 @@ describe Tag do
   end
 
   it { should have_many :posts }
-  it { should have_many :posts_tags }
+  it { should have_many(:posts_tags).dependent(:destroy) }
 end

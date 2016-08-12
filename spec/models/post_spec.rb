@@ -5,7 +5,7 @@ describe Post do
   it { should have_many :tags }
   it { should have_many(:contributions).dependent(:destroy) }
   it { should have_many :authors }
-  it { should have_many :posts_tags }
+  it { should have_many(:posts_tags).dependent(:destroy) }
   it { should validate_presence_of :title }
   it { should validate_presence_of :body }
   it { should validate_presence_of :topic }
