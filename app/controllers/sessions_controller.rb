@@ -15,5 +15,8 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    log_out
+    flash.notice = "I thought we had a thing, brah :("
+    redirect_to root_path
   end
 end
