@@ -1,11 +1,15 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  def current_author
-    @current_author ||= Author.find_by(id: session[:author_id])
-  end
+  before_action :create_helper
 
-  def logged_in?
-    !!current_author
+  delegate :log_in, :current_author, :logged_in?, to: :helper
+
+  attr_reader :helper
+
+  private
+
+  def create_helper
+    @helper = SessionsDecoratee.new(self)
   end
 end

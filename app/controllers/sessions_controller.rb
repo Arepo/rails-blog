@@ -16,8 +16,4 @@ class SessionsController < ApplicationController
 
   def destroy
   end
-
-  def log_in(author)
-    session[:author_id] = author.id
-  end
 end
