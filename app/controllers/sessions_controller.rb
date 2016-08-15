@@ -4,7 +4,10 @@ class SessionsController < ApplicationController
 
   def create
     author = Author.find_by email: params[:session][:email]
-    if author && author.authenticate
+    if author && author.authenticate(params[:session][:password])
+      log_in author
+      flash.notice = "Hello #{author.name}, you shining pinnacle of evolution"
+      redirect_to root_path
     else
       flash.now[:danger] = 'No author found with that username/password combination'
       render 'new'
@@ -12,5 +15,9 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+  end
+
+  def log_in(author)
+    session[:author_id] = author.id
   end
 end

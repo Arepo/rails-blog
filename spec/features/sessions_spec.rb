@@ -26,12 +26,12 @@ describe "Sessions", type: :feature do
 
   def and_i_log_in_successfully
     fill_in 'Email', with: author.email
-    fill_in 'Password', with: 'unbreakable'
+    fill_in 'Password', with: 'unbreakable!'
     click_button "Log in"
   end
 
   def then_i_should_see_a_message_confirming_login
-    expect(page).to have_content "Logged in successfully"
+    expect(page).to have_content "Hello #{author.name}, you shining pinnacle of evolution"
   end
 
 ####
@@ -46,5 +46,5 @@ describe "Sessions", type: :feature do
     expect(page).to have_content "No author found with that username/password combination"
   end
 
-  let(:author) { FactoryGirl.create(:author, password: 'unbreakable') }
+  let(:author) { FactoryGirl.create(:author, password: 'unbreakable!') }
 end
