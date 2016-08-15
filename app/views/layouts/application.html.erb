@@ -9,6 +9,12 @@
   </head>
 
   <body>
+  <% if current_user %>
+    <div class="author-pane">
+      <%= link_to 'Log out', logout_path, method: :delete %>
+    </div>
+  <% end %>
+
   <% flash.each do |_, message| %>
     <div>
       <%= message %>

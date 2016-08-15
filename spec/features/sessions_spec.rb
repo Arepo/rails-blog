@@ -16,6 +16,12 @@ describe "Sessions", type: :feature do
     end
   end
 
+  scenario "Logging out" do
+    given_i_am_logged_in
+    when_i_log_out
+    then_i_should_see_confirmation_of_logging_out
+  end
+
   def given_an_author_exists
     author
   end
@@ -34,6 +40,8 @@ describe "Sessions", type: :feature do
     expect(page).to have_content "Hello #{author.name}, you shining pinnacle of evolution"
   end
 
+  let(:author) { FactoryGirl.create(:author, password: 'unbreakable!') }
+
 ####
 
   def and_i_log_in_unsuccessfully
@@ -46,5 +54,21 @@ describe "Sessions", type: :feature do
     expect(page).to have_content "No author found with that username/password combination"
   end
 
-  let(:author) { FactoryGirl.create(:author, password: 'unbreakable!') }
+####
+
+  def given_i_am_logged_in
+    given_an_author_exists
+    when_i_visit_the_author_login_page
+    and_i_log_in_successfully
+  end
+
+  def when_i_log_out
+    click_link 'Log out'
+  end
+
+  def then_i_should_see_confirmation_of_logging_out
+# save_and_open_page
+# binding.pry
+    expect(page).to have_content "I thought we had a thing, brah :("
+  end
 end
