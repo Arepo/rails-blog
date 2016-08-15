@@ -7,6 +7,7 @@ require 'spec_helper'
 require 'rspec/rails'
 require 'capybara/rails'
 require 'helpers/post_feature_helpers'
+require 'rack_session_access/capybara'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 

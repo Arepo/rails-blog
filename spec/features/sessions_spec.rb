@@ -57,9 +57,8 @@ describe "Sessions", type: :feature do
 ####
 
   def given_i_am_logged_in
-    given_an_author_exists
-    when_i_visit_the_author_login_page
-    and_i_log_in_successfully
+    page.set_rack_session author_id: author.id
+    visit root_path
   end
 
   def when_i_log_out
@@ -67,8 +66,6 @@ describe "Sessions", type: :feature do
   end
 
   def then_i_should_see_confirmation_of_logging_out
-# save_and_open_page
-# binding.pry
     expect(page).to have_content "I thought we had a thing, brah :("
   end
 end

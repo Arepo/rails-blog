@@ -41,6 +41,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'launchy'
+  gem 'rack_session_access'
 end
 
 group :development do
