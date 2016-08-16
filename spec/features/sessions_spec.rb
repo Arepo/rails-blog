@@ -33,7 +33,7 @@ describe "Sessions", type: :feature do
   def and_i_log_in_successfully
     fill_in 'Email', with: author.email
     fill_in 'Password', with: 'unbreakable!'
-    click_button "Log in"
+    click_button 'Log in'
   end
 
   def then_i_should_see_a_message_confirming_login
@@ -47,7 +47,7 @@ describe "Sessions", type: :feature do
   def and_i_log_in_unsuccessfully
     fill_in 'Email', with: Faker::Internet.email
     fill_in 'Password', with: 'Faker::Areponet.probably_not_a_real_password'
-    click_button "Log in"
+    click_button 'Log in'
   end
 
   def then_i_should_see_a_message_denying_login
