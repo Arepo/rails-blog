@@ -38,21 +38,31 @@ describe Author do
   end
 
   context "Authentication" do
-    it "Stores a digested token to remember users by" do
-      author.remember
-      expect(author.reload.remember_digest).to start_with '$2a$'
+    context '#remember' do
+      it 'stores a digested token to remember users by' do
+        author.remember
+        expect(author.reload.remember_digest).to start_with '$2a$' #Standard BCrypt prefix
+      end
     end
 
-    it "Deletes the token when forgetting the user" do
-      author.remember
-      author.forget
-      expect(author.reload.remember_digest).to be nil
+    context '#forget' do
+      it 'deletes the remember_digest' do
+        author.remember
+        author.forget
+        expect(author.reload.remember_digest).to be nil
+      end
     end
 
-    it "Can check whether a token matches its (hashed) own" do
-      allow(SecureRandom).to receive(:urlsafe_base64).and_return "LptYPGADzd97e3Bd1c-n8g"
-      author.remember
-      expect(author.authenticated? 'LptYPGADzd97e3Bd1c-n8g').to be true
+    context '#authenticate' do
+      it "checks an author's remember_digest against passed in token" do
+        allow(SecureRandom).to receive(:urlsafe_base64).and_return "LptYPGADzd97e3Bd1c-n8g"
+        author.remember
+        expect(author.authenticated? 'LptYPGADzd97e3Bd1c-n8g').to be true
+      end
+
+      it "Automatically returns false if the author has no remember_digest" do
+        expect(author.authenticated? 'Irrelevant token').to be false
+      end
     end
   end
 end

@@ -66,6 +66,6 @@ describe "Sessions", type: :feature do
   end
 
   def then_i_should_see_confirmation_of_logging_out
-    expect(page).to have_content "I thought we had a thing, brah :("
+    expect(page).to have_content "I name thee BETRAYER!"
   end
 end

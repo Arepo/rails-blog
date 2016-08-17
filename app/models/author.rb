@@ -17,6 +17,8 @@ class Author < ApplicationRecord
 
   before_save :downcase_email
 
+  attr_accessor :remember_token
+
   def remember
     self.remember_token = self.class.new_token
     update remember_digest: self.class.digest(remember_token)
@@ -34,8 +36,6 @@ class Author < ApplicationRecord
 ####
 
   private
-
-  attr_accessor :remember_token
 
   def downcase_email
     self.email.downcase!

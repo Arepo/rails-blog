@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
     author = Author.find_by email: params[:session][:email]
     if author && author.authenticate(params[:session][:password])
       log_in author
-      remember author if params[:session][:remember_me] == '1'
+      audit_cookie_for author
       flash.notice = "Hello #{author.name}, you sexy pinnacle of evolution"
       redirect_to root_path
     else
@@ -18,8 +18,12 @@ class SessionsController < ApplicationController
   def destroy
     if logged_in?
       log_out
-      flash.notice = "I thought we had a thing, brah :("
+      flash.notice = "I name thee BETRAYER!"
     end
     redirect_to root_path
+  end
+
+  def audit_cookie_for author
+    params[:session][:remember_me] == '1' ? remember(author) : forget(author)
   end
 end
