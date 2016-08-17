@@ -34,12 +34,16 @@ class Author < ApplicationRecord
   end
 
   def remember
+    self.remember_token = self.class.new_token
+    update remember_digest: self.class.digest(remember_token)
+  end
 
-    self.remember_token = User.new_token
-    update remember_digest: User.digest(remember_token)
+  def forget
+    update remember_digest: nil
   end
 
   def authenticated? remember_token
+    return false unless remember_digest
     BCrypt::Password.new(remember_digest).is_password? remember_token
   end
 
