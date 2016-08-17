@@ -37,7 +37,7 @@ describe "Sessions", type: :feature do
   end
 
   def then_i_should_see_a_message_confirming_login
-    expect(page).to have_content "Hello #{author.name}, you shining pinnacle of evolution"
+    expect(page).to have_content "Hello #{author.name}, you sexy pinnacle of evolution"
   end
 
   let(:author) { FactoryGirl.create(:author, password: 'unbreakable!') }

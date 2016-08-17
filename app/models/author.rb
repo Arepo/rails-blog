@@ -17,22 +17,6 @@ class Author < ApplicationRecord
 
   before_save :downcase_email
 
-  def self.new_token
-    SecureRandom.urlsafe_base64
-  end
-
-  attr_accessor :remember_token
-
-  def self.digest string
-    cost = if ActiveModel::SecurePassword.min_cost
-      BCrypt::Engine::MIN_COST
-    else
-      BCrypt::Engine.cost
-    end
-
-    BCrypt::Password.create string, cost: cost
-  end
-
   def remember
     self.remember_token = self.class.new_token
     update remember_digest: self.class.digest(remember_token)
@@ -47,9 +31,27 @@ class Author < ApplicationRecord
     BCrypt::Password.new(remember_digest).is_password? remember_token
   end
 
+####
+
   private
+
+  attr_accessor :remember_token
 
   def downcase_email
     self.email.downcase!
+  end
+
+  def self.new_token
+    SecureRandom.urlsafe_base64
+  end
+
+  def self.digest string
+    cost = if ActiveModel::SecurePassword.min_cost
+      BCrypt::Engine::MIN_COST
+    else
+      BCrypt::Engine.cost
+    end
+
+    BCrypt::Password.create string, cost: cost
   end
 end
