@@ -7,6 +7,7 @@ require 'spec_helper'
 require 'rspec/rails'
 require 'capybara/rails'
 require 'helpers/post_feature_helpers'
+require 'helpers/sessions_feature_helpers'
 require 'rack_session_access/capybara'
 
 # Add additional requires below this line. Rails is not loaded until this point!
@@ -32,6 +33,7 @@ ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
   config.include PostFeatureHelpers
+  config.include SessionsFeatureHelpers
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
