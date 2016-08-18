@@ -41,7 +41,6 @@ module SessionHelper
     author = Author.find_by id: author_id
 
     if author && author.authenticated?(cookies[:remember_token])
-      # TODO figure out how to test this branch
       log_in author
       @current_user = author
     end
