@@ -10,6 +10,7 @@ module PostFeatureHelpers
 
   def then_the_page_should_display_the_post
     post = Post.last
+# binding.pry
     expect(page.text).to include post.title,
                                  post.topic,
                                  post.body
@@ -58,7 +59,7 @@ module PostFeatureHelpers
   end
 
   def then_it_should_display_with_html
-    expect(page.body).to include "<em>Highly emphatic</em>",
+    expect(page.body).to include "Highly <em>emphatic</em>",
                                  "<h2>Headonistic</h2>"
   end
 
