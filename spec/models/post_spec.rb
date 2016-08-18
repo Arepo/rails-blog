@@ -26,4 +26,21 @@ describe Post do
       end
     end
   end
+
+  context "Markdown" do
+    it "Renders markdown versions of its title, body and topic" do
+      post = Post.new(
+        title: "Reasons why I'm **better** than Neil",
+        body: "* I make seven layer bean dip of the gods
+               * I’m also in Halo 3 What are the odds?",
+        topic: 'Important _Sience_!'
+      )
+
+      expect(post.title).to include "<strong>better</strong>"
+      expect(post.body).to include  "<ul>",
+                                    "<li>I make seven layer bean dip of the gods</li>",
+                                    "<li>I’m also in Halo 3 What are the odds?</li>"
+      expect(post.topic).to include "<em>Science</em>"
+    end
+  end
 end
