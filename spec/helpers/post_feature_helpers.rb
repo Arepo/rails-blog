@@ -53,6 +53,17 @@ module PostFeatureHelpers
 
 ####
 
+  def given_a_post_with_markdown
+    post_1.update title: "Highly *emphatic*", body: '## Headonistic'
+  end
+
+  def then_it_should_display_with_html
+    expect(page.body).to include "<em>Highly emphatic</em>",
+                                 "<h2>Headonistic</h2>"
+  end
+
+####
+
   def then_the_page_should_display_errors
     expect(page.text).to include "Title can't be blank",
                                  "Body can't be blank",

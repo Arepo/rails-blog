@@ -8,7 +8,7 @@ describe "Posts", type: :feature do
           when_i_create_a_post
           and_i_submit_all_the_fields
           then_the_page_should_display_the_post
-          and_the_post_count_should_now_be(1)
+          and_the_post_count_should_now_be 1
         end
       end
 
@@ -18,7 +18,15 @@ describe "Posts", type: :feature do
           when_i_create_a_post
           and_i_submit_an_existing_topic
           then_the_page_should_display_the_post
-          and_the_post_count_should_now_be(2)
+          and_the_post_count_should_now_be 2
+        end
+      end
+
+      context "Markdown" do
+        scenario "gets parsed into html when displaying" do
+          given_a_post_with_markdown
+          when_i_view_the_post
+          then_it_should_display_with_html
         end
       end
     end
@@ -28,7 +36,7 @@ describe "Posts", type: :feature do
         when_i_create_a_post
         and_submit_the_post
         then_the_page_should_display_errors
-        and_the_post_count_should_now_be(0)
+        and_the_post_count_should_now_be 0
       end
     end
   end
