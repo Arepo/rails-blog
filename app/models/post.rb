@@ -14,13 +14,12 @@ class Post < ApplicationRecord
     created_at.to_date
   end
 
+  def id
+# binding.pry
+super
+end
+
   def self.topics
     pluck(:topic).uniq.compact
-  end
-
-  private
-
-  def markdown
-    @markdown ||= Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true)
   end
 end
