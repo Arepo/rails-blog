@@ -1,4 +1,5 @@
 module PostFeatureHelpers
+
   def when_i_create_a_post
     visit new_post_path
   end
@@ -136,5 +137,18 @@ module PostFeatureHelpers
 
   def and_see_confirmation_of_the_deletion
     expect(page).to have_content "#{post_1.title} has been deleted"
+  end
+
+####
+
+  def then_i_should_not_have_the_option_to_create_a_post
+    expect(page).not_to have_content "New post"
+  end
+
+####
+
+  def then_i_should_not_be_able_to_edit_or_delete_it
+    expect(page).not_to have_content "Edit post"
+    expect(page).not_to have_content "Delete post"
   end
 end
