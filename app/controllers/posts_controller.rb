@@ -3,7 +3,7 @@ class PostsController < ApplicationController
 
   def index
     @tags = Tag.names
-    @topics = Post.topics
+    @topics = PostDisplayDecorator.render_multiple Post.topics
   end
 
   def new

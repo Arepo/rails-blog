@@ -26,9 +26,17 @@ class PostDisplayDecorator
     post.id.to_s
   end
 
+  def self.render_multiple(strings)
+    strings.map { |string| markdown.render(string).html_safe }
+  end
+
   private
 
-  def markdown
+  def self.markdown
     @markdown ||= Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true)
+  end
+
+  def markdown
+    self.class.markdown
   end
 end

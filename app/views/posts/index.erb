@@ -1,7 +1,7 @@
 <%= link_to("New post", new_post_path) %>
 
 <% @topics.each do |topic| %>
-  <div id="<%= topic.parameterize %>">
+  <div id="<%= strip_tags(topic).parameterize %>">
     <h2><%= topic %></h2>
     <ul>
       <% Post.in_topic(topic).each do |post| %>

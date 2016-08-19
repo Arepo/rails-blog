@@ -8,16 +8,13 @@ class Post < ApplicationRecord
 
   validates :title, :body, :topic, presence: true
 
-  scope :in_topic, -> (topic) { where("lower(topic) = ?", topic.downcase) }
+  scope :in_topic, -> (topic) do
+    where("lower(topic) = ?", ActionController::Base.helpers.strip_tags(topic.downcase.chomp))
+  end
 
   def international_date
     created_at.to_date
   end
-
-  def id
-# binding.pry
-super
-end
 
   def self.topics
     pluck(:topic).uniq.compact
