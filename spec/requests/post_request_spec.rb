@@ -18,35 +18,34 @@ describe 'Author management', type: :request do
 
   context "Attempting db changes while not logged in" do
     context "New post" do
-      xscenario "Cannot create a post" do
-        expect { post(
-          new_posts_path,
-          title: "Sneaky",
-          body: "Robopost",
-          topic: "Something terribly benign"
-        ) }.not_to change { Post.count }
-
+      scenario "Cannot create a post" do
+        expect do
+          post(
+            posts_path,
+            post: { title: "Sneaky",
+                    body: "Robopost",
+                    topic: "Something terribly benign"
+                  },
+            tags: { "Acquiring tag on seditious blogger" => 1, new_tags: "" },
+          )
+        end.not_to change { Post.count }
       end
     end
 
     context "Trying to changing existing posts" do
-      let(:post) { FactoryGirl.create :post, title: "Wholesome sermon on honesty" }
+      let!(:post) { FactoryGirl.create :post, title: "Wholesome sermon on honesty" }
 
       scenario "Cannot update a post" do
-        patch(
-          post_path(post),
-          title: "Ha! Ur website iz hacked!"
-        )
-
-        expect(post.reload.title).to eq 'Wholesome sermon on honesty'
+        expect do
+          patch(
+            post_path(post),
+            post: { title: "Ha! Ur website iz hacked!" }
+          )
+        end.not_to change { post.reload.title }
       end
 
       scenario "Cannot delete a post" do
-        delete(
-          post_path(post)
-        )
-
-        expect(post).not_to be_persisted
+        expect { delete(post_path(post)) }.not_to change { Post.count }
       end
     end
   end

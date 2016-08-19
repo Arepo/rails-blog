@@ -11,13 +11,15 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(post_params)
+    if current_user
+      @post = Post.new(post_params)
 
-    if @post.save
-      tags.each { |tag| Tag.with_name(tag).first_or_create.posts << @post }
-      redirect_to post_path(@post)
-    else
-      render 'new'
+      if @post.save
+        tags.each { |tag| Tag.with_name(tag).first_or_create.posts << @post }
+        redirect_to post_path(@post)
+      else
+        render 'new'
+      end
     end
   end
 
@@ -30,20 +32,24 @@ class PostsController < ApplicationController
   end
 
   def update
-    @post = Post.find(params[:id])
+    if current_user
+      @post = Post.find(params[:id])
 
-    if @post.update(post_params)
-      redirect_to post_path(@post)
-    else
-      render 'edit'
+      if @post.update(post_params)
+        redirect_to post_path(@post)
+      else
+        render 'edit'
+      end
     end
   end
 
   def destroy
-    @post = Post.find(params[:id])
-    @post.destroy
+    if current_user
+      @post = Post.find(params[:id])
+      @post.destroy
 
-    redirect_to '/', notice: "#{@post.title} has been deleted"
+      redirect_to '/', notice: "#{@post.title} has been deleted"
+    end
   end
 
   private

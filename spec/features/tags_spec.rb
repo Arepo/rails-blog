@@ -10,28 +10,32 @@ describe "Tags", type: :feature do
     end
   end
 
-  scenario "Creating a tag when creating a post" do
-    when_i_create_a_post
-    and_i_fill_in_all_the_fields
-    and_i_submit_new_tags
-    then_those_tags_should_be_associated_with_the_post
-  end
+  context "Logged in" do
+    before { given_i_am_logged_in }
 
-  scenario "Reusing a tag when creating a post" do
-    given_tags_exist
-    when_i_create_a_post
-    and_i_fill_in_all_the_fields
-    and_i_submit_multiple_tags
-    then_those_tags_should_be_associated_with_the_post
-  end
+    scenario "Creating a tag when creating a post" do
+      when_i_create_a_post
+      and_i_fill_in_all_the_fields
+      and_i_submit_new_tags
+      then_those_tags_should_be_associated_with_the_post
+    end
 
-  scenario "Trying to create an existing tag" do
-    given_tags_exist
-    when_i_create_a_post
-    and_i_fill_in_all_the_fields
-    and_i_try_to_submit_existing_tags
-    then_those_tags_should_be_associated_with_the_post
-    but_no_new_tags_should_be_created
+    scenario "Reusing a tag when creating a post" do
+      given_tags_exist
+      when_i_create_a_post
+      and_i_fill_in_all_the_fields
+      and_i_submit_multiple_tags
+      then_those_tags_should_be_associated_with_the_post
+    end
+
+    scenario "Trying to create an existing tag" do
+      given_tags_exist
+      when_i_create_a_post
+      and_i_fill_in_all_the_fields
+      and_i_try_to_submit_existing_tags
+      then_those_tags_should_be_associated_with_the_post
+      but_no_new_tags_should_be_created
+    end
   end
 
   def then_i_should_see_all_their_tags
