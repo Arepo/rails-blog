@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :resolve_topic, only: [:create, :update]
+  around_action :proceed_if_logged_in, only: [:create, :update, :destroy]
 
   def index
     @tags = Tag.names
@@ -11,15 +12,13 @@ class PostsController < ApplicationController
   end
 
   def create
-    if current_user
-      @post = Post.new(post_params)
+    @post = Post.new(post_params)
 
-      if @post.save
-        tags.each { |tag| Tag.with_name(tag).first_or_create.posts << @post }
-        redirect_to post_path(@post)
-      else
-        render 'new'
-      end
+    if @post.save
+      tags.each { |tag| Tag.with_name(tag).first_or_create.posts << @post }
+      redirect_to post_path(@post)
+    else
+      render 'new'
     end
   end
 
@@ -32,24 +31,20 @@ class PostsController < ApplicationController
   end
 
   def update
-    if current_user
-      @post = Post.find(params[:id])
+    @post = Post.find(params[:id])
 
-      if @post.update(post_params)
-        redirect_to post_path(@post)
-      else
-        render 'edit'
-      end
+    if @post.update(post_params)
+      redirect_to post_path(@post)
+    else
+      render 'edit'
     end
   end
 
   def destroy
-    if current_user
-      @post = Post.find(params[:id])
-      @post.destroy
+    @post = Post.find(params[:id])
+    @post.destroy
 
-      redirect_to '/', notice: "#{@post.title} has been deleted"
-    end
+    redirect_to '/', notice: "#{@post.title} has been deleted"
   end
 
   private
@@ -58,6 +53,12 @@ class PostsController < ApplicationController
     # TODO use JS to ensure params can't include both topic and new topic
     topic = post_params.delete(:new_topic)
     post_params[:topic] = topic if topic.present?
+  end
+
+  def proceed_if_logged_in
+    if current_user
+      yield
+    end
   end
 
   def post_params

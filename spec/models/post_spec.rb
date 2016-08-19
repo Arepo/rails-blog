@@ -19,6 +19,13 @@ describe Post do
     expect(decorator.post).to be post
   end
 
+  it "Has at least one author" do
+    post = Post.new
+    post.valid?
+
+    expect(post.errors[:author]).to include("Post needs an author")
+  end
+
   context "pseudo-scoping" do
     context "by topic" do
       let!(:post_1) { FactoryGirl.create :post, topic: "Rites of ascension in Westeros" }

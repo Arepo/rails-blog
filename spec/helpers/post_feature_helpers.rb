@@ -11,7 +11,6 @@ module PostFeatureHelpers
 
   def then_the_page_should_display_the_post
     post = Post.last
-# binding.pry
     expect(page.text).to include post.title,
                                  post.topic,
                                  post.body
@@ -21,15 +20,15 @@ module PostFeatureHelpers
     expect(Post.count).to eq num
   end
 
-  def and_submit_the_post
-    clickee = current_path.include?('edit') ? 'Update Post' : 'Create Post'
-    click_button clickee
-  end
-
   def and_i_fill_in_all_the_fields
     fill_in "Title", with: "I am the Black Knight! I am invincible!"
     fill_in "Body", with: "How appropriate. You fight like a cow."
     fill_in "New topic", with: "Famous historical battles"
+  end
+
+  def and_submit_the_post
+    clickee = current_path.include?('edit') ? 'Update Post' : 'Create Post'
+    click_button clickee
   end
 
 #####
@@ -51,6 +50,27 @@ module PostFeatureHelpers
 
   def post_1
     @post_1 ||= FactoryGirl.create(:post, topic: "Blade running")
+  end
+
+####
+
+  def given_another_author_exists
+    other_author
+  end
+
+  def and_i_submit_a_post_with_the_other_author
+    and_i_fill_in_all_the_fields
+    select other_author.name, from: 'Co-author'
+    and_submit_the_post
+  end
+
+  def then_we_should_both_be_authors_of_the_post
+    expect(Post.last.authors).to include author,
+                                         other_author
+  end
+
+  def other_author
+    @other_author ||= FactoryGirl.create :author
   end
 
 ####

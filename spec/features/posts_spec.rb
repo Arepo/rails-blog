@@ -23,6 +23,12 @@ describe "Posts", type: :feature do
             then_the_page_should_display_the_post
             and_the_post_count_should_now_be 2
           end
+
+          scenario "with_multiple_authors" do
+            given_another_author_exists
+            and_i_submit_a_post_with_the_other_author
+            then_we_should_both_be_authors_of_the_post
+          end
         end
 
         context "Markdown" do
