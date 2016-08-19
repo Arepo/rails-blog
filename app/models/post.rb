@@ -8,8 +8,11 @@ class Post < ApplicationRecord
 
   validates :title, :body, :topic, presence: true
 
-  scope :in_topic, -> (topic) do
-    where("lower(topic) = ?", ActionController::Base.helpers.strip_tags(topic.downcase.chomp))
+  def self.in_topic topic
+    where(
+      "lower(topic) = ?",
+      ActionController::Base.helpers.strip_tags(topic.downcase.chomp)
+    ).map(&:wrap)
   end
 
   def international_date
@@ -18,5 +21,9 @@ class Post < ApplicationRecord
 
   def self.topics
     pluck(:topic).uniq.compact
+  end
+
+  def wrap
+    PostDisplayDecorator.new self
   end
 end

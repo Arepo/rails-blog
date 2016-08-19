@@ -10,19 +10,28 @@ describe Post do
   it { should validate_presence_of :body }
   it { should validate_presence_of :topic }
 
-  context "scoping" do
+
+  it "Can wrap itself in a decorator" do
+    post = Post.new
+    decorator = post.wrap
+
+    expect(decorator).to be_an_instance_of PostDisplayDecorator
+    expect(decorator.post).to be post
+  end
+
+  context "pseudo-scoping" do
     context "by topic" do
       let!(:post_1) { FactoryGirl.create :post, topic: "Rites of ascension in Westeros" }
       let!(:post_2) { FactoryGirl.create :post, topic: "Rights of orcs in Middle Earth" }
 
-      it "finds all posts with a given topic, case insensitively" do
+      it "finds and all posts with a given topic, case insensitively, wrapping them in a decorator" do
         first_topic = Post.in_topic "Rites of ascension in westeros"
         second_topic = Post.in_topic "Rights of orcs in middle earth"
 
-        expect(first_topic).to include post_1
-        expect(first_topic).not_to include post_2
-        expect(second_topic).to include post_2
-        expect(second_topic).not_to include post_1
+        expect(first_topic.map(&:post)).to include post_1
+        expect(first_topic.map(&:post)).not_to include post_2
+        expect(second_topic.map(&:post)).to include post_2
+        expect(second_topic.map(&:post)).not_to include post_1
       end
     end
   end

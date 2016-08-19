@@ -22,7 +22,7 @@ class PostsController < ApplicationController
   end
 
   def show
-    @post = PostDisplayDecorator.new Post.find(params[:id])
+    @post = Post.find(params[:id]).wrap
   end
 
   def edit
