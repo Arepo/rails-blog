@@ -10,7 +10,6 @@ describe Post do
   it { should validate_presence_of :body }
   it { should validate_presence_of :topic }
 
-
   it "Can wrap itself in a decorator" do
     post = Post.new
     decorator = post.wrap
@@ -23,7 +22,7 @@ describe Post do
     post = Post.new
     post.valid?
 
-    expect(post.errors[:author]).to include("Post needs an author")
+    expect(post.errors[:authors]).to include("is too short (minimum is 1 character)")
   end
 
   context "pseudo-scoping" do

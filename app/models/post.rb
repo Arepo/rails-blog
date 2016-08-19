@@ -7,6 +7,7 @@ class Post < ApplicationRecord
   has_many :tags, through: :posts_tags
 
   validates :title, :body, :topic, presence: true
+  validates :authors, length: { minimum: 1 }
 
   def self.in_topic topic
     where(
