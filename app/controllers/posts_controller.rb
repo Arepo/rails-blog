@@ -13,6 +13,8 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
+    co_author = Author.find_by id: params[:authors]["co-author"]
+    @post.authors << [current_user, co_author].compact
 
     if @post.save
       tags.each { |tag| Tag.with_name(tag).first_or_create.posts << @post }

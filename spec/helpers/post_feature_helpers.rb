@@ -59,6 +59,7 @@ module PostFeatureHelpers
   end
 
   def and_i_submit_a_post_with_the_other_author
+    when_i_create_a_post
     and_i_fill_in_all_the_fields
     select other_author.name, from: 'Co-author'
     and_submit_the_post

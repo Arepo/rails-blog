@@ -17,7 +17,13 @@ class Author < ApplicationRecord
 
   before_save :downcase_email
 
+  scope :other_than, -> (author) { where.not(id: author.id) }
+
   attr_accessor :remember_token
+
+  def to_s
+    name
+  end
 
   def remember
     self.remember_token = self.class.new_token

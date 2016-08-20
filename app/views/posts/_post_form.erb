@@ -28,5 +28,16 @@
     <%= tag_fields.text_area :new_tags %>
   <% end %>
 
+  <%= fields_for :authors do |author_fields| %>
+    <%= author_fields.label :"co-author" %>
+    <%= author_fields.collection_select(
+      :"co-author",
+      Author.other_than(current_user),
+      :id,
+      :to_s,
+      include_blank: true
+    ) %>
+  <% end %>
+
   <%= f.submit %>
 <% end %>
