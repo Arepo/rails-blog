@@ -43,10 +43,19 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post = Post.find(params[:id])
+    @post = Post.find params[:id]
     @post.destroy
 
     redirect_to '/', notice: "#{@post.title} has been deleted"
+  end
+
+  def filter
+    @tag = Tag.find_by name: params[:tag]
+    @posts = @tag.posts
+    respond_to do |format|
+      format.html
+      format.js { render js: 'filter' }
+    end
   end
 
   private

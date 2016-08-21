@@ -17,6 +17,6 @@
 <div id="tags">
   <h3>View posts by tag</h2>
   <% @tags.each do |tag| %>
-    <span><%= tag %></span>
+    <span><%= link_to tag, filtered_posts_path(tag: tag), remote: true %></span>
   <% end %>
 </div>
