@@ -12,8 +12,9 @@ describe "Tags", type: :feature do
       then_i_should_see_all_their_tags
     end
 
-    scenario "Linking to post by tag" do
+    scenario "Linking to post by tag", js: true do
       and_click_on_a_tag
+      then_i_should_see_only_posts_with_that_tag
     end
   end
 
@@ -54,6 +55,7 @@ describe "Tags", type: :feature do
 ####
 
   def and_click_on_a_tag
+binding.pry
     click_on Tag.first.name
   end
 
@@ -61,7 +63,7 @@ describe "Tags", type: :feature do
     expect(current_path).to eq '/'
   end
 
-  def but_i_should_only_see_posts_with_that_tag
+  def then_i_should_see_only_posts_with_that_tag
     expect(page.text).to include Post.first.title
     expect(page.text).not_to include Post.last.title
   end

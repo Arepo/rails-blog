@@ -43,6 +43,7 @@ group :test do
   gem 'faker'
   gem 'launchy'
   gem 'rack_session_access'
+  gem 'poltergeist'
 end
 
 group :development do

@@ -1,0 +1,13 @@
+<%= link_to_if(current_user, "New post", new_post_path){} %>
+
+
+<% @topics.each do |topic| %>
+  <%= render 'topic', topic: topic %>
+<% end %>
+
+<div id="tags">
+  <h2>View posts by tag</h2>
+  <% @tags.each do |tag| %>
+    <span><%= link_to tag, filter_posts_path(tag: tag), remote: true %></span>
+  <% end %>
+</div>

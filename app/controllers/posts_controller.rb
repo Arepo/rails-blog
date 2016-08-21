@@ -5,6 +5,15 @@ class PostsController < ApplicationController
   def index
     @tags = Tag.names
     @topics = PostDisplayDecorator.render_multiple Post.topics
+
+    @tag = Tag.find_by name: params[:tag]
+
+    @posts = @tag.posts if @tag
+binding.pry if @tag
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def new
@@ -49,12 +58,9 @@ class PostsController < ApplicationController
     redirect_to '/', notice: "#{@post.title} has been deleted"
   end
 
-  def filter
-    @tag = Tag.find_by name: params[:tag]
-    @posts = @tag.posts
+  def filter_posts
     respond_to do |format|
-      format.html
-      format.js { render js: 'filter' }
+      format.js
     end
   end
 
