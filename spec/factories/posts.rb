@@ -5,8 +5,8 @@ FactoryGirl.define do
     topic { Faker::Book.genre }
 
     after :build do |post, _|
-      author = create(:author)
-      post.authors << author
+      post.tags << build(:tag)
+      post.authors << create(:author)
     end
   end
 end

@@ -3,10 +3,18 @@ require 'rails_helper'
 describe "Tags", type: :feature do
 
   context "Home page" do
-    scenario "Displaying all tags" do
+    before do
       given_multiple_posts_exist
       when_i_visit_the_homepage
+    end
+
+    scenario "Displaying all tags" do
       then_i_should_see_all_their_tags
+    end
+
+    scenario "Linking to post by tag" do
+      binding.pry
+      and_click_on_a_tag
     end
   end
 
@@ -42,6 +50,12 @@ describe "Tags", type: :feature do
     tags = Tag.names
 
     expect(page.text).to include *tags
+  end
+
+####
+
+  def and_click_on_a_tag
+    click_on ''
   end
 
 ####
