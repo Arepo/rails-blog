@@ -13,7 +13,6 @@ describe "Tags", type: :feature do
     end
 
     scenario "Linking to post by tag" do
-      binding.pry
       and_click_on_a_tag
     end
   end
@@ -55,7 +54,16 @@ describe "Tags", type: :feature do
 ####
 
   def and_click_on_a_tag
-    click_on ''
+    click_on Tag.first.name
+  end
+
+  def then_i_should_be_on_the_homepage
+    expect(current_path).to eq '/'
+  end
+
+  def but_i_should_only_see_posts_with_that_tag
+    expect(page.text).to include Post.first.title
+    expect(page.text).not_to include Post.last.title
   end
 
 ####
