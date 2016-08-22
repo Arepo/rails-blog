@@ -3,13 +3,15 @@ class PostsController < ApplicationController
   around_action :proceed_if_logged_in, only: [:create, :update, :destroy]
 
   def index
+
+binding.pry #if @tag
     @tags = Tag.names
     @topics = PostDisplayDecorator.render_multiple Post.topics
 
     @tag = Tag.find_by name: params[:tag]
 
     @posts = @tag.posts if @tag
-binding.pry if @tag
+binding.pry #if @tag
     respond_to do |format|
       format.html
       format.js

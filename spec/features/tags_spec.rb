@@ -55,7 +55,6 @@ describe "Tags", type: :feature do
 ####
 
   def and_click_on_a_tag
-binding.pry
     click_on Tag.first.name
   end
 

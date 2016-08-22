@@ -33,6 +33,7 @@ gem 'redcarpet', '~> 3.3.4'
 
 group :development, :test do
   gem 'pry-rails'
+  gem 'poltergeist'
 end
 
 group :test do
@@ -43,7 +44,7 @@ group :test do
   gem 'faker'
   gem 'launchy'
   gem 'rack_session_access'
-  gem 'poltergeist'
+  gem 'database_cleaner'
 end
 
 group :development do
