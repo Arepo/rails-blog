@@ -53,7 +53,7 @@ describe Post do
         expect(Post.tagged_with(tag2)).not_to include post_1
         expect(Post.tagged_with(tag2)).to include post_2
 
-        expect(Post.tagged_with(tag1, tag2)).not_to include post_1, post_2
+        expect(Post.tagged_with(tag1, tag2)).to include post_1, post_2
       end
     end
   end

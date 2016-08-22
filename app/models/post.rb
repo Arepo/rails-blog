@@ -16,6 +16,10 @@ class Post < ApplicationRecord
     ).map(&:wrap)
   end
 
+  def self.tagged_with *tags
+    joins(:tags).where(tags: { name: tags })
+  end
+
   def international_date
     created_at.to_date
   end
