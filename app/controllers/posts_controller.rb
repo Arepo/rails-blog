@@ -3,17 +3,15 @@ class PostsController < ApplicationController
   around_action :proceed_if_logged_in, only: [:create, :update, :destroy]
 
   def index
-
-binding.pry #if @tag
     @tags = Tag.names
     @topics = PostDisplayDecorator.render_multiple Post.topics
+  end
 
+  def filter_posts
     @tag = Tag.find_by name: params[:tag]
 
     @posts = @tag.posts if @tag
-binding.pry #if @tag
     respond_to do |format|
-      format.html
       format.js
     end
   end
@@ -58,12 +56,6 @@ binding.pry #if @tag
     @post.destroy
 
     redirect_to '/', notice: "#{@post.title} has been deleted"
-  end
-
-  def filter_posts
-    respond_to do |format|
-      format.js
-    end
   end
 
   private
