@@ -9,6 +9,7 @@ class PostsController < ApplicationController
   end
 
   def filter_posts
+    @tag = params[:tag]
     @post_ids = Post.tagged_with(params[:tag]).pluck(:id)
 
     respond_to do |format|

@@ -1,5 +1,7 @@
 $('.post').hide();
 
+$('.index').prepend('Showing posts tagged with "<%= @tag %>"');
+
 <% @post_ids.each do |id| %>
   $('#post-' + <%= id %>).show();
 <% end %>
