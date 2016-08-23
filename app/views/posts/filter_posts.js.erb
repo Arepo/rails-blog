@@ -1,3 +1,5 @@
+$('.post').hide();
 
-console.log('hello monkey')
-
+<% @post_ids.each do |id| %>
+  $('#post-' + <%= id %>).show();
+<% end %>

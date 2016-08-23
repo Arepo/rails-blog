@@ -63,8 +63,10 @@ describe "Tags", type: :feature do
   end
 
   def then_i_should_see_only_posts_with_that_tag
-    expect(page.text).to include Post.first.title
-    expect(page.text).not_to include Post.last.title
+    id1 = Post.first.id
+    id2 = Post.last.id
+    expect(page).to have_css("\#post-#{id1}", visible: true)
+    expect(page).not_to have_css("\#post-#{id2}", visible: true)
   end
 
 ####
