@@ -71,7 +71,7 @@
 
 
     <div class="col-sm-3">
-      <div id="tags">
+      <div class="well" id="tags">
         <h4>View posts by tag</h4>
         <% @tags.each do |tag| %>
           <span><%= link_to tag, filter_posts_path(tag: tag), remote: true %></span>

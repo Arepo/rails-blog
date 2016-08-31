@@ -15,7 +15,6 @@ describe "Tags", type: :feature do
     scenario "Linking to post by tag", js: true do
       and_click_on_a_tag
       then_i_should_see_only_posts_with_that_tag
-      and_i_should_see_confirmation_that_the_filter_is_applied
     end
   end
 
@@ -68,11 +67,6 @@ describe "Tags", type: :feature do
     id2 = Post.last.id
     expect(page).to have_css("\#post-#{id1}", visible: true)
     expect(page).not_to have_css("\#post-#{id2}", visible: true)
-  end
-
-  def and_i_should_see_confirmation_that_the_filter_is_applied
-    tag = Tag.first.name
-    expect(page).to have_content "Showing posts tagged with \"#{tag}\""
   end
 
 ####
