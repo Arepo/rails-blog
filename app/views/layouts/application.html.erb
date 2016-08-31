@@ -25,24 +25,23 @@
               <span class="sr-only">Toggle navigation</span>
               Menu <i class="fa fa-bars"></i>
           </button>
-          <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+          <li>
+              <%= link_to 'Valence utilitarianism', root_path, class: 'navbar-brand' %>
+          </li>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
+
             <li>
-              <a href="index.html">Home</a>
+              <%= link_to_if(current_user, "New post", new_post_path){} %>
             </li>
-            <li>
-              <a href="about.html">About</a>
-            </li>
-            <li>
-              <a href="post.html">Sample Post</a>
-            </li>
-            <li>
-              <a href="contact.html">Contact</a>
-            </li>
+            <% if current_user %>
+              <li>
+                <%= link_to 'Log out', logout_path, method: :delete %>
+              </li>
+            <% end %>
           </ul>
         </div>
           <!-- /.navbar-collapse -->
@@ -54,17 +53,13 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-
+            <div class="site-heading" id="heading-override">
+              <span class="subheading"><%= yield :page_title %></span>
+            </div>
           </div>
         </div>
       </div>
     </header>
-
-    <% if current_user %>
-      <div class="author-pane">
-        <%= link_to 'Log out', logout_path, method: :delete %>
-      </div>
-    <% end %>
 
     <% flash.each do |_, message| %>
       <div>
@@ -80,23 +75,15 @@
           <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
             <ul class="list-inline text-center">
               <li>
-                <a href="#">
+                <a href="https://www.linkedin.com/in/sasha-cooper-794006a1?trk=hp-identity-name">
                   <span class="fa-stack fa-lg">
                     <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                    <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
                   </span>
                 </a>
               </li>
               <li>
-                <a href="#">
-                  <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a href="#">
+                <a href="https://github.com/arepo">
                   <span class="fa-stack fa-lg">
                     <i class="fa fa-circle fa-stack-2x"></i>
                     <i class="fa fa-github fa-stack-1x fa-inverse"></i>
@@ -104,7 +91,7 @@
                 </a>
               </li>
             </ul>
-            <p class="copyright text-muted">Copyright © Your Website 2016</p>
+            <p class="copyright text-muted">No copyright - crib for the lulz</p>
           </div>
         </div>
         <!-- /.row -->
