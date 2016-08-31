@@ -2,7 +2,7 @@
   <%= @post.title %>
 <% end %>
 
-
+Tagged with: <%= @post.tags.map(&:to_s) %>
 In topic: <%= @post.topic %>
 <%= @post.title %>
 <%= @post.body %>

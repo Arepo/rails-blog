@@ -65,6 +65,13 @@ describe "Posts", type: :feature do
         and_submit_the_post
         then_the_page_should_display_errors
       end
+
+      scenario "while reassigning tags" do
+        given_a_post_with_two_tags_exists
+        when_i_edit_a_post
+        and_i_delete_a_tag
+        then_the_post_should_have_just_the_remaining_tag
+      end
     end
 
     describe "Displaying all posts" do

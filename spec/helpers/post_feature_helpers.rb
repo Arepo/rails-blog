@@ -107,6 +107,22 @@ module PostFeatureHelpers
 
 ####
 
+  def given_a_post_with_two_tags_exists
+    post_1.tags << Tag.create(name: "Tag2")
+  end
+
+  def and_i_delete_a_tag
+    page.uncheck Tag.first.name
+    and_submit_the_post
+  end
+
+  def then_the_post_should_have_just_the_remaining_tag
+    expect(post_1.tags.count).to be 1
+    expect(post_1.tags.first.name).to eq "Tag2"
+  end
+
+####
+
   def given_multiple_posts_exist
     post_1
     post_2
