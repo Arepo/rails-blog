@@ -20,6 +20,27 @@ describe Post do
   end
 
   context "Post API" do
+    context '#list_tags' do
+
+      it 'gives all its tags as a string' do
+        tag1 = Tag.create name: 'Tag1'
+        tag2 = Tag.create name: 'Tag2'
+
+        post.tags += [tag1, tag2]
+        expect(post.list_tags).to eq 'foo'
+      end
+    end
+
+    context '#tagged_with?' do
+      it 'checks whether it has a given tag' do
+        actual_tag = post.tags.first
+        hypothetical_tag = Tag.create!(name: 'Unloved')
+
+        expect(post).to be_tagged_with actual_tag
+        expect(post).not_to be_tagged_with hypothetical_tag
+      end
+    end
+
     context '#update_post_and_tags' do
       before { post.save }
 
@@ -53,16 +74,6 @@ describe Post do
 
         expect(decorator).to be_an_instance_of PostDisplayDecorator
         expect(decorator.post).to be post
-      end
-    end
-
-    context '#tagged_with?' do
-      it 'checks whether it has a given tag' do
-        actual_tag = post.tags.first
-        hypothetical_tag = Tag.create!(name: 'Unloved')
-
-        expect(post).to be_tagged_with actual_tag
-        expect(post).not_to be_tagged_with hypothetical_tag
       end
     end
   end
