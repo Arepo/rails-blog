@@ -27,11 +27,11 @@ class Author < ApplicationRecord
 
   def remember
     self.remember_token = self.class.new_token
-    update remember_digest: self.class.digest(remember_token)
+    update! remember_digest: self.class.digest(remember_token)
   end
 
   def forget
-    update remember_digest: nil
+    update! remember_digest: nil
   end
 
   def authenticated? remember_token

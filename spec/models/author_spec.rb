@@ -28,7 +28,7 @@ describe Author do
   end
 
   it "auto-downcases emails before saving" do
-    author.update(email: "C@seby.Case")
+    author.update!(email: "C@seby.Case")
     author.save
     expect(author.email).to eq "c@seby.case"
   end

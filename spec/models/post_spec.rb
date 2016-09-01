@@ -10,19 +10,58 @@ describe Post do
   it { should validate_presence_of :body }
   it { should validate_presence_of :topic }
 
-  it "Can wrap itself in a decorator" do
-    post = Post.new
-    decorator = post.wrap
-
-    expect(decorator).to be_an_instance_of PostDisplayDecorator
-    expect(decorator.post).to be post
-  end
+  let (:post) { FactoryGirl.build :post }
 
   it "Has at least one author" do
-    post = Post.new
     post.valid?
 
     expect(post.errors[:authors]).to include("is too short (minimum is 1 character)")
+  end
+
+  context "Post API" do
+    context '#update_post_and_tags' do
+      it 'Updates from two sets of params' do
+        current_tag = post.tags.first.name
+        Tag.create!(name: "funkalicious")
+
+        post_params = {
+          title: "Swankeh new title"
+        }
+
+        tag_params = {
+          "#{current_tag}"=>"0", "funkalicious"=>"1", "new_tags"=>"monster, madness"
+        }
+
+        post.update_post_and_tags(post_params: post_params, tag_params: tag_params)
+
+        expect(post.reload.title).to eq "Swankeh new title"
+
+        tags = post.tags.pluck :name
+        expect(tags).not_to include current_tag
+        expect(tags).to include "funkalicious",
+                                "monster",
+                                "madness"
+      end
+    end
+
+    context '#wrap' do
+     it 'wraps itself in a PostDisplayDecorator instance' do
+        decorator = post.wrap
+
+        expect(decorator).to be_an_instance_of PostDisplayDecorator
+        expect(decorator.post).to be post
+      end
+    end
+
+    context '#tagged_with?' do
+      it 'checks whether it has a given tag' do
+        actual_tag = post.tags.first
+        hypothetical_tag = Tag.create!(name: 'Unloved')
+
+        expect(post).to be_tagged_with actual_tag
+        expect(post).not_to be_tagged_with hypothetical_tag
+      end
+    end
   end
 
   context "pseudo-scoping" do

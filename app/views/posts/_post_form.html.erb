@@ -25,9 +25,9 @@
           <!-- TODO - figure out why f.select doesn't seem to work with multiple: true -->
             <%= f.label :"existing_tags:" %>
             <br>
-            <% Tag.names.each do |tag| %>
+            <% Tag.all.each do |tag| %>
               <label class="checkbox-inline">
-                <%= tag_fields.check_box tag %> <%= tag %>
+                <%= tag_fields.check_box tag, checked: f.object.tagged_with?(tag) %> <%= tag %>
               </label>
             <% end %>
           </div>

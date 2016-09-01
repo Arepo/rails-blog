@@ -85,8 +85,8 @@ describe "Tags", type: :feature do
 ####
 
   def given_tags_exist
-    Tag.create(name: "tag!")
-    Tag.create(name: "you're it!")
+    Tag.create!(name: "tag!")
+    Tag.create!(name: "you're it!")
   end
 
   def and_i_submit_multiple_tags

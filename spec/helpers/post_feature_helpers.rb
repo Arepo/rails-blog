@@ -77,7 +77,7 @@ module PostFeatureHelpers
 ####
 
   def given_a_post_with_markdown
-    post_1.update title: "Highly *emphatic*", body: '## Headonistic'
+    post_1.update! title: "Highly *emphatic*", body: '## Headonistic'
   end
 
   def then_it_should_display_with_html
@@ -108,17 +108,19 @@ module PostFeatureHelpers
 ####
 
   def given_a_post_with_two_tags_exists
-    post_1.tags << Tag.create(name: "Tag2")
+    post_1.tags << Tag.create!(name: "tag2")
   end
 
-  def and_i_delete_a_tag
-    page.uncheck Tag.first.name
+  def and_i_modify_the_tags
+    uncheck Tag.first.name
+    fill_in "New tags", with: 'so hot right now'
     and_submit_the_post
   end
 
-  def then_the_post_should_have_just_the_remaining_tag
-    expect(post_1.tags.count).to be 1
-    expect(post_1.tags.first.name).to eq "Tag2"
+  def then_the_post_should_have_the_correct_tags
+    expect(post_1.tags.count).to be 2
+    expect(post_1.tags.pluck :name).to include "tag2",
+                                               "so hot right now"
   end
 
 ####

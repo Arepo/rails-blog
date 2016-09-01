@@ -69,8 +69,8 @@ describe "Posts", type: :feature do
       scenario "while reassigning tags" do
         given_a_post_with_two_tags_exists
         when_i_edit_a_post
-        and_i_delete_a_tag
-        then_the_post_should_have_just_the_remaining_tag
+        and_i_modify_the_tags
+        then_the_post_should_have_the_correct_tags
       end
     end
 

@@ -14,7 +14,7 @@ describe Tag do
   end
 
   it "searches for a downcased equivalent of passed in string" do
-    tag = Tag.create(name: 'cappy')
+    tag = Tag.create!(name: 'cappy')
     expect(Tag.with_name('CAPPY')).to include tag
   end
 
@@ -27,8 +27,8 @@ describe Tag do
     end
 
     it "Validates the uniqueness of name" do
-      Tag.create(name: "I aaaaam the one and only!")
-      tag = Tag.create(name: "I aaaaam the one and only!")
+      Tag.create!(name: "I aaaaam the one and only!")
+      tag = Tag.create!(name: "I aaaaam the one and only!")
 
       expect(tag).not_to be_valid
       expect(tag.errors[:name]).to include 'has already been taken'
