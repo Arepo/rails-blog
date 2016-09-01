@@ -44,13 +44,14 @@ class Post < ApplicationRecord
   private
 
   def update_tags(tag_params)
+    tags.delete_all
+
     new_tags = tag_params.delete 'new_tags'
 
     tag_params.each_pair do |tag_name,v|
       tag = Tag.find_by name: tag_name
-      tags.delete tag if v == '0'
 
-      tags << tag if v == '1' && tags.exclude?(tag)
+      tags << tag if v == '1'
     end
 
     new_tags.split(',').map(&:strip).each { |tag| tags.with_name(tag).first_or_create }
