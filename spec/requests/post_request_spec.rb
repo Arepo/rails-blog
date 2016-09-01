@@ -22,11 +22,13 @@ describe 'Author management', type: :request do
         expect do
           post(
             posts_path,
-            post: { title: "Sneaky",
-                    body: "Robopost",
-                    topic: "Something terribly benign"
-                  },
-            tags: { "Acquiring tag on seditious blogger" => 1, new_tags: "" },
+            params: {
+              post: { title: "Sneaky",
+                body: "Robopost",
+                topic: "Something terribly benign"
+              },
+              tags: { "Acquiring tag on seditious blogger" => 1, new_tags: "" }
+            }
           )
         end.not_to change { Post.count }
       end
@@ -39,7 +41,9 @@ describe 'Author management', type: :request do
         expect do
           patch(
             post_path(post),
-            post: { title: "Ha! Ur website iz hacked!" }
+            params: {
+              post: { title: "Ha! Ur website iz hacked!" }
+            }
           )
         end.not_to change { post.reload.title }
       end
