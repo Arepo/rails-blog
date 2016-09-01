@@ -32,8 +32,14 @@ class PostDisplayDecorator
 
   private
 
+  class RenderWithoutWrap < Redcarpet::Render::HTML
+    def postprocess(full_document)
+      Regexp.new(/\A<p>(.*)<\/p>\Z/m).match(full_document).try(:[], 1) || full_document
+    end
+  end
+
   def self.markdown
-    @markdown ||= Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true)
+    @markdown ||= Redcarpet::Markdown.new(RenderWithoutWrap, autolink: true, tables: true)
   end
 
   def markdown

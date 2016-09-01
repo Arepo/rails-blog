@@ -28,7 +28,7 @@ describe Post do
 
         post.tags += [tag1, tag2]
         post.save!
-        expect(post.list_tags).to eq 'tag1 tag2 taggytag1'
+        expect(post.list_tags).to include "tag1 tag2"
       end
     end
 
