@@ -78,9 +78,6 @@ class PostsController < ApplicationController
   end
 
   def tags
-    # TODO Maybe move this logic to the Tag class
-    tags = params[:tags].select { |k,v| v == '1' }.keys
-    new_tags = params[:tags][:new_tags].split(',').map(&:strip)
-    tags | new_tags
+    @post.extract_tags(params[:tags])
   end
 end

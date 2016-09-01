@@ -24,6 +24,13 @@ class Post < ApplicationRecord
     pluck(:topic).uniq.compact
   end
 
+  def extract_tags(tag_params)
+    tags = tag_params.select { |k,v| v == '1' }.keys
+    new_tags = (tag_params['new_tags'] || "").split(',').map(&:strip)
+
+    tags | new_tags
+  end
+
   def international_date
     created_at.to_date
   end
@@ -44,16 +51,11 @@ class Post < ApplicationRecord
   private
 
   def update_tags(tag_params)
-    tags.delete_all
+    updated_tags = extract_tags(tag_params)
 
-    new_tags = tag_params.delete 'new_tags'
-
-    tag_params.each_pair do |tag_name,v|
-      tag = Tag.find_by name: tag_name
-
-      tags << tag if v == '1'
+    transaction do
+      tags.delete_all
+      updated_tags.each { |tag| tags << Tag.with_name(tag).first_or_create }
     end
-
-    new_tags.split(',').map(&:strip).each { |tag| tags.with_name(tag).first_or_create }
   end
 end
