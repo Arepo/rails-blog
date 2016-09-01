@@ -3,6 +3,7 @@ class PostsController < ApplicationController
   around_action :proceed_if_logged_in, only: [:create, :update, :destroy]
 
   def index
+    # TODO enable filtering by multiple tags
     @posts = Post.all
     @tags = Tag.names
     @topics = PostDisplayDecorator.render_multiple Post.topics
