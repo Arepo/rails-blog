@@ -35,6 +35,10 @@ class Post < ApplicationRecord
     created_at.to_date
   end
 
+  def list_tags
+    tags.pluck(:name).join ' '
+  end
+
   def tagged_with? tag
     tags.include? tag
   end

@@ -23,11 +23,12 @@ describe Post do
     context '#list_tags' do
 
       it 'gives all its tags as a string' do
-        tag1 = Tag.create name: 'Tag1'
-        tag2 = Tag.create name: 'Tag2'
+        tag1 = Tag.create name: 'tag1'
+        tag2 = Tag.create name: 'tag2'
 
         post.tags += [tag1, tag2]
-        expect(post.list_tags).to eq 'foo'
+        post.save!
+        expect(post.list_tags).to eq 'tag1 tag2 taggytag1'
       end
     end
 
