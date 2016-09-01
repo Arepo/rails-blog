@@ -13,6 +13,7 @@ describe Post do
   let (:post) { FactoryGirl.build :post }
 
   it "Has at least one author" do
+    post.authors.delete_all
     post.valid?
 
     expect(post.errors[:authors]).to include("is too short (minimum is 1 character)")
@@ -20,6 +21,8 @@ describe Post do
 
   context "Post API" do
     context '#update_post_and_tags' do
+      before { post.save }
+
       it 'Updates from two sets of params' do
         current_tag = post.tags.first.name
         Tag.create!(name: "funkalicious")

@@ -26,7 +26,7 @@ class PostsController < ApplicationController
     co_author = Author.find_by id: params[:authors]["co-author"]
     @post.authors << [current_user, co_author].compact
 
-    if @post.save!
+    if @post.save
       tags.each { |tag| Tag.with_name(tag).first_or_create.posts << @post }
       redirect_to post_path(@post)
     else
@@ -54,7 +54,7 @@ class PostsController < ApplicationController
 
   def destroy
     @post = Post.find params[:id]
-    @post.destroy!
+    @post.destroy
 
     redirect_to '/', notice: "#{@post.title} has been deleted"
   end

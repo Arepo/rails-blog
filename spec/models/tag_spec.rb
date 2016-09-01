@@ -28,10 +28,7 @@ describe Tag do
 
     it "Validates the uniqueness of name" do
       Tag.create!(name: "I aaaaam the one and only!")
-      tag = Tag.create!(name: "I aaaaam the one and only!")
-
-      expect(tag).not_to be_valid
-      expect(tag.errors[:name]).to include 'has already been taken'
+      expect { Tag.create!(name: "I aaaaam the one and only!") }.to raise_error { ActiveRecord::RecordInvalid }
     end
   end
 

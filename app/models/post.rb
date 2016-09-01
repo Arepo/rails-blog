@@ -33,10 +33,8 @@ class Post < ApplicationRecord
   end
 
   def update_post_and_tags(post_params: {}, tag_params: {})
-    transaction do
-      update!(post_params)
-      assign_tags(tag_params)
-    end
+    update_tags(tag_params)
+    update(post_params)
   end
 
   def wrap
@@ -45,7 +43,7 @@ class Post < ApplicationRecord
 
   private
 
-  def assign_tags(tag_params)
+  def update_tags(tag_params)
     new_tags = tag_params.delete 'new_tags'
 
     tag_params.each_pair do |tag_name,v|
