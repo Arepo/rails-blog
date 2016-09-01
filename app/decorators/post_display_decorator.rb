@@ -17,6 +17,10 @@ class PostDisplayDecorator
     markdown.render(post.body).html_safe
   end
 
+  def list_tags
+    markdown.render(post.list_tags).html_safe
+  end
+
   def topic
     markdown.render(post.topic).html_safe
   end
@@ -32,14 +36,14 @@ class PostDisplayDecorator
 
   private
 
-  class RenderWithoutWrap < Redcarpet::Render::HTML
-    def postprocess(full_document)
-      Regexp.new(/\A<p>(.*)<\/p>\Z/m).match(full_document).try(:[], 1) || full_document
-    end
-  end
+  # class RenderWithoutWrap < Redcarpet::Render::HTML
+  #   def postprocess(full_document)
+  #     Regexp.new(/\A<p>(.*)<\/p>\Z/m).match(full_document).try(:[], 1) || full_document
+  #   end
+  # end
 
   def self.markdown
-    @markdown ||= Redcarpet::Markdown.new(RenderWithoutWrap, autolink: true, tables: true)
+    @markdown ||= Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true)
   end
 
   def markdown
