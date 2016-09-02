@@ -1,18 +1,30 @@
-<% if !current_user %>
-  <h1>Log in</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-offset-4 col-sm-4">
+      <% if !current_user %>
+        <h1>Log in</h1>
 
-  <%= form_for :session, url: login_path do |f| %>
-    <%= f.label :email %>
-    <%= f.email_field :email %>
+        <%= form_for :session, url: login_path do |f| %>
+          <div class="form-group">
+            <%= f.label :email %>
+            <%= f.email_field :email, class: "form-control" %>
+          </div>
 
-    <%= f.label :password %>
-    <%= f.password_field :password %>
+          <div class="form-group">
+            <%= f.label :password %>
+            <%= f.password_field :password, class: "form-control" %>
+          </div>
 
-    <%= f.label :remember_me %>
-    <%= f.check_box :remember_me %>
+          <div class="form-group">
+            <%= f.label :remember_me %>
+            <%= f.check_box :remember_me %>
+          </div>
 
-    <%= f.submit "Log in" %>
-  <% end %>
-<% else %>
-  <span>You're already logged in, genius.</span>
-<% end %>
+          <%= f.submit "Log in", class: "btn btn-default" %>
+        <% end %>
+      <% else %>
+        <span>You're already logged in, genius.</span>
+      <% end %>
+    </div>
+  </div>
+</div>
