@@ -187,6 +187,22 @@ module PostFeatureHelpers
 
 ####
 
+  def then_i_should_not_be_able_to_see_the_faq
+    expect(page).not_to have_link 'VU FAQ'
+  end
+
+####
+
+  def given_an_FAQ_exists
+    FactoryGirl.create(:post, title: "Valence utilitarianism FAQ")
+  end
+
+  def then_i_should_be_able_to_see_the_faq
+    expect(page).to have_link 'VU FAQ'
+  end
+
+####
+
   def then_i_should_not_have_the_option_to_create_a_post
     expect(page).not_to have_content "New post"
   end

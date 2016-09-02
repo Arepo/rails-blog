@@ -46,12 +46,12 @@ class PostsController < ApplicationController
   end
 
   def edit
-    @post = Post.find(params[:id])
+    @post = Post.friendly.find(params[:id])
   end
 
   def update
     # TODO Enable updating authors
-    @post = Post.find(params[:id])
+    @post = Post.friendly.find(params[:id])
 
     if @post.update_post_and_tags(post_params: post_params, tag_params: params[:tags])
       redirect_to post_path(@post)
@@ -61,7 +61,7 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post = Post.find params[:id]
+    @post = Post.friendly.find params[:id]
     @post.destroy
 
     redirect_to '/', notice: "#{@post.title} has been deleted"
