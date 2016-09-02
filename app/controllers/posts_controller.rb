@@ -1,9 +1,11 @@
 class PostsController < ApplicationController
   before_action :resolve_topic, only: [:create, :update]
+  before_action :find_faq
   around_action :proceed_if_logged_in, only: [:create, :update, :destroy]
 
   def index
     # TODO enable filtering by multiple tags
+    # TODO enable deselecting tag(s)
     @posts = Post.all
     @tags = Tag.names
     @topics = PostDisplayDecorator.render_multiple Post.topics
@@ -62,10 +64,12 @@ class PostsController < ApplicationController
 
   private
 
-  def resolve_topic
-    # TODO use JS to ensure params can't include both topic and new topic
-    topic = post_params.delete(:new_topic)
-    post_params[:topic] = topic if topic.present?
+  def find_faq
+    @faq = Post.find_by(title: "Valence utilitarianism FAQ")
+  end
+
+  def post_params
+    @post_params ||= params.require(:post).permit(:title, :body, :topic, :new_topic)
   end
 
   def proceed_if_logged_in
@@ -74,8 +78,10 @@ class PostsController < ApplicationController
     end
   end
 
-  def post_params
-    @post_params ||= params.require(:post).permit(:title, :body, :topic, :new_topic)
+  def resolve_topic
+    # TODO use JS to ensure params can't include both topic and new topic
+    topic = post_params.delete(:new_topic)
+    post_params[:topic] = topic if topic.present?
   end
 
   def tags

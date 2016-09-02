@@ -101,6 +101,19 @@ describe "Posts", type: :feature do
   end
 
   context "Not logged in" do
+    context "FAQ" do
+      scenario "No FAQ" do
+        when_i_visit_the_homepage
+        then_i_should_not_be_able_to_see_the_faq
+      end
+
+      scenario "FAQ exists" do
+        given_an_FAQ_exists
+        when_i_visit_the_homepage
+        then_i_should_be_able_to_see_the_faq
+      end
+    end
+
     scenario "Can't create posts" do
       when_i_visit_the_homepage
       then_i_should_not_have_the_option_to_create_a_post

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  # TODO get friendly IDs
+
   get 'sessions/new'
 
   get 'post/index'
