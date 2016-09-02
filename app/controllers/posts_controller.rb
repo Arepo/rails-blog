@@ -38,7 +38,11 @@ class PostsController < ApplicationController
   end
 
   def show
-    @post = Post.find(params[:id]).wrap
+    @post = Post.friendly.find(params[:id]).wrap
+
+    if request.path != post_path(@post)
+      redirect_to @post, status: :moved_permanently
+    end
   end
 
   def edit
@@ -46,6 +50,7 @@ class PostsController < ApplicationController
   end
 
   def update
+    # TODO Enable updating authors
     @post = Post.find(params[:id])
 
     if @post.update_post_and_tags(post_params: post_params, tag_params: params[:tags])

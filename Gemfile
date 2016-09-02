@@ -28,6 +28,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bcrypt', '~> 3.1.7'
 gem 'redcarpet', '~> 3.3.4'
 gem 'bootstrap-sass', '~> 3.3.6'
+gem 'friendly_id', '~> 5.1.0'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

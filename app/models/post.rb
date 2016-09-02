@@ -1,5 +1,7 @@
 class Post < ApplicationRecord
   # Added fields: body, title, topic
+  extend FriendlyId
+  friendly_id :title, use: [:slugged, :history]
 
   has_many :contributions, dependent: :destroy
   has_many :authors, through: :contributions
@@ -50,6 +52,11 @@ class Post < ApplicationRecord
 
   def wrap
     PostDisplayDecorator.new self
+  end
+
+  def should_generate_new_friendly_id?
+    # Friendly ID method
+    changes.include? :title
   end
 
   private

@@ -88,6 +88,11 @@ describe "Posts", type: :feature do
         when_i_visit_the_homepage
         then_i_should_be_able_to_navigate_to_the_post
       end
+
+      scenario "Friendly ids" do
+        given_a_post_already_exists
+        then_i_should_be_able_to_link_to_it_by_name
+      end
     end
 
     describe "Deleting a post" do

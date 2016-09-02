@@ -158,8 +158,15 @@ module PostFeatureHelpers
 
   def then_i_should_be_able_to_navigate_to_the_post
     click_link post_1.title
-    expect(page).to have_content post_1.title
+    expect(page).to have_content post_1.body
     expect(page).to have_link "Edit post"
+  end
+
+####
+
+  def then_i_should_be_able_to_link_to_it_by_name
+    visit "/posts/#{post_1.slug}"
+    expect(page).to have_content post_1.body
   end
 
 ####

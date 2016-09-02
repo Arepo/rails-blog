@@ -1,4 +1,8 @@
 class PostDisplayDecorator
+  def self.render_multiple(strings)
+    strings.map { |string| markdown.render(string).html_safe }
+  end
+
   attr_reader :post
 
   def initialize(post)
@@ -30,17 +34,12 @@ class PostDisplayDecorator
     post.id.to_s
   end
 
-  def self.render_multiple(strings)
-    strings.map { |string| markdown.render(string).html_safe }
+  def to_param
+    # Hack for friendly_id gem
+    post.to_param
   end
 
   private
-
-  # class RenderWithoutWrap < Redcarpet::Render::HTML
-  #   def postprocess(full_document)
-  #     Regexp.new(/\A<p>(.*)<\/p>\Z/m).match(full_document).try(:[], 1) || full_document
-  #   end
-  # end
 
   def self.markdown
     @markdown ||= Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true)
