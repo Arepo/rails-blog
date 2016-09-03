@@ -47,6 +47,7 @@ group :test do
   gem 'launchy'
   gem 'rack_session_access'
   gem 'database_cleaner'
+  gem "codeclimate-test-reporter", require: nil
 end
 
 group :development do
