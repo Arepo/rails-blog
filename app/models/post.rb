@@ -1,5 +1,6 @@
 class Post < ApplicationRecord
   # Added fields: body, title, topic
+
   extend FriendlyId
   friendly_id :title, use: [:slugged, :history]
 

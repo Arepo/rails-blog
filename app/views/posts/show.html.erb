@@ -1,3 +1,5 @@
+<!-- TODO add tooltips -->
+
 <%= content_for :page_title do %>
   <%= @post.title %>
 <% end %>
@@ -5,7 +7,9 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-8 col-sm-offset-2">
-      <%= @post.body %>
+      <article>
+        <%= @post.body %>
+      </article>
     </div>
     <div class="col-sm-2 well">
       <h4>Topic</h4>
