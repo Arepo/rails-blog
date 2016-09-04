@@ -19,6 +19,8 @@ class Tag < ApplicationRecord
     name
   end
 
+####
+
   private
 
   def downcase_name
