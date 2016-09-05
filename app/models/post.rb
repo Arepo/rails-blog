@@ -28,7 +28,7 @@ class Post < ApplicationRecord
   end
 
   def extract_tags(tag_params)
-    tags = tag_params.select { |k,v| v == '1' }.keys
+    tags = tag_params.select { |_,v| v == '1' }.keys
     new_tags = (tag_params['new_tags'] || "").split(',').map(&:strip)
 
     tags | new_tags
