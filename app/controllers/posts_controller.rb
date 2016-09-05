@@ -41,7 +41,7 @@ class PostsController < ApplicationController
     @post = Post.friendly.find(params[:id]).wrap
 
     if request.path != post_path(@post)
-      redirect_to @post, status: :moved_permanently
+      redirect_to @post, status: :moved_permanently, only_path: true
     end
   end
 
