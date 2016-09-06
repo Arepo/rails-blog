@@ -1,6 +1,6 @@
 ## About
 
-A rails blog I created for my personal use, partly to play around with some gems/aspects of Rails I wanted to get to know better, partly because I quickly came to loathe Wordpress.
+Blog software I created for my personal use, partly to play around with some gems/aspects of Rails I wanted to get to know better, partly because I quickly came to loathe Wordpress.
 
 If you want to try out the code locally (presumably to have access to the admin options), you need to create an author from the Rails console (who needs a 'name', 'password' and semi-valid 'email' attribute). Then navigate manually to '/login', and enter the login details - that will give you the option to create, update and delete posts.
 
