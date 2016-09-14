@@ -1,6 +1,5 @@
 class PostsController < ApplicationController
   before_action :resolve_topic, only: [:create, :update]
-  before_action :find_faq
   around_action :proceed_if_logged_in, only: [:create, :update, :destroy]
 
   def index
@@ -69,10 +68,6 @@ class PostsController < ApplicationController
   end
 
   private
-
-  def find_faq
-    @faq = Post.find_by(title: "Valence utilitarianism FAQ")
-  end
 
   def post_params
     @post_params ||= params.require(:post).permit(:title, :body, :topic, :new_topic)
