@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  # test change
   before_action :find_faq
   protect_from_forgery with: :exception
 
