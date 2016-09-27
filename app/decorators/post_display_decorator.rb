@@ -13,20 +13,25 @@ class PostDisplayDecorator
     post.public_send(method, *args)
   end
 
-  def title
-    markdown.render(post.title).html_safe
-  end
-
   def body
     markdown.render(post.body).html_safe
+  end
+
+  def call_original(method)
+    post.public_send(method)
   end
 
   def list_tags
     markdown.render(post.list_tags).html_safe
   end
 
-  def topic
-    markdown.render(post.topic).html_safe
+  def title
+    markdown.render(post.title).html_safe
+  end
+
+  def to_param
+    # Hack for friendly_id gem
+    post.to_param
   end
 
   def to_s
@@ -34,9 +39,8 @@ class PostDisplayDecorator
     post.id.to_s
   end
 
-  def to_param
-    # Hack for friendly_id gem
-    post.to_param
+  def topic
+    markdown.render(post.topic).html_safe
   end
 
   private
