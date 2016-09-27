@@ -27,7 +27,7 @@ class Post < ApplicationRecord
     pluck(:topic).uniq.compact
   end
 
-  def extract_tags(tag_params)
+  def extract_tags tag_params
     tags = tag_params.select { |_,v| v == '1' }.keys
     new_tags = (tag_params['new_tags'] || "").split(',').map(&:strip)
 
@@ -46,7 +46,7 @@ class Post < ApplicationRecord
     tags.include? tag
   end
 
-  def update_post_and_tags(post_params: {}, tag_params: {})
+  def update_post_and_tags post_params: {}, tag_params: {}
     update_tags(tag_params)
     update(post_params)
   end
@@ -62,7 +62,7 @@ class Post < ApplicationRecord
 
   private
 
-  def update_tags(tag_params)
+  def update_tags tag_params
     updated_tags = extract_tags(tag_params)
 
     transaction do

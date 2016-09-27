@@ -5,7 +5,7 @@ class PostsController < ApplicationController
   def index
     # TODO enable filtering by multiple tags
     # TODO enable deselecting tag(s)
-    @posts = Post.all
+    @posts = Post.all.order("Lower(title)")
     @tags = Tag.names
     @topics = PostDisplayDecorator.render_multiple Post.topics
   end
