@@ -1,13 +1,15 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-9">
-      <div class="row">
-        <% @topics.each do |topic| %>
-          <div class="col-sm-6">
-            <%= render 'topics', topic: topic %>
-          </div>
-        <% end %>
-      </div>
+      <% @topics.in_groups_of(2, false).each do |group| %>
+        <div class="row">
+          <% group.each do |topic| %>
+            <div class="col-sm-6">
+              <%= render 'topics', topic: topic %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
     </div>
 
     <div class="col-sm-3">
