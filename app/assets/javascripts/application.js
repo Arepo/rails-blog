@@ -18,5 +18,5 @@
 //= require bootstrap-sprockets
 
 $(function() {
-  console.log('ready')
+  $('.my-tooltip').tooltip();
 })
