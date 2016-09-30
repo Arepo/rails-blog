@@ -5,6 +5,7 @@ describe PostDisplayDecorator do
     Post.new(
       title: "Reasons why I'm **better** than Neil",
       topic: 'Important _Sience_!',
+      publish: true,
       body: <<~BODY
               ### Papa header
               #### Mama header
@@ -33,5 +34,12 @@ describe PostDisplayDecorator do
     expect(decorator.body).to include '<h3><a id="papa-header">Papa header</a></h3>',
                                       '<h4><a id="mama-header">Mama header</a></h4>',
                                       '<h5><a id="baby-header">Baby header</a></h5>'
+  end
+
+  it 'Appends "(unpublished)" to unpublished posts' do
+    expect(decorator.title).not_to include '(unpublished)'
+
+    post.publish = false
+    expect(decorator.title).to include '(unpublished)'
   end
 end

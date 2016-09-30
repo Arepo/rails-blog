@@ -1,5 +1,7 @@
 module PostFeatureHelpers
 
+# with all fields filled in, creating a new topic
+
   def when_i_create_a_post
     visit new_post_path
   end
@@ -31,7 +33,7 @@ module PostFeatureHelpers
     click_button clickee
   end
 
-#####
+# with all fields filled in, using existing topic
 
   def given_a_post_already_exists
     post_1
@@ -52,7 +54,7 @@ module PostFeatureHelpers
     @post_1 ||= FactoryGirl.create(:post, topic: "Blade running")
   end
 
-####
+# with_multiple_authors
 
   def given_another_author_exists
     other_author
@@ -74,7 +76,7 @@ module PostFeatureHelpers
     @other_author ||= FactoryGirl.create :author
   end
 
-####
+# gets parsed into html when displaying
 
   def given_a_post_with_markdown
     post_1.update! title: "Highly *emphatic*", body: '## Headonistic'
@@ -85,7 +87,7 @@ module PostFeatureHelpers
                                  "<h2>Headonistic</h2>"
   end
 
-####
+# with fields missing
 
   def then_the_page_should_display_errors
     expect(page.text).to include "Title can't be blank",
@@ -93,11 +95,13 @@ module PostFeatureHelpers
                                  "Topic can't be blank"
   end
 
-####
+# successfully
 
   def when_i_edit_a_post
     visit edit_post_path(post_1)
   end
+
+# unsuccessfully
 
   def and_i_remove_fields
     fill_in "Title", with: ""
@@ -105,7 +109,7 @@ module PostFeatureHelpers
     find('#topic-select').select ""
   end
 
-####
+# while reassigning tags
 
   def given_a_post_with_two_tags_exists
     post_1.tags << Tag.create!(name: "tag2")
@@ -123,7 +127,7 @@ module PostFeatureHelpers
                                                "so hot right now"
   end
 
-####
+# All post titles and creation dates are listed under a primary topic heading
 
   def given_multiple_posts_exist
     post_1
@@ -154,7 +158,17 @@ module PostFeatureHelpers
     @post_2 ||= FactoryGirl.create(:post, topic: "Dreaming of electric sheep", created_at: yesterday)
   end
 
-####
+# Unpublished posts are visible but flagged
+
+  def given_an_unpublished_post_exists
+    post_1.update(publish: false)
+  end
+
+  def but_it_should_be_flagged_as_unpublished
+    expect(page).to have_content "#{post_1.title} (unpublished)"
+  end
+
+# Navigating from the index page
 
   def then_i_should_be_able_to_navigate_to_the_post
     click_link post_1.title
@@ -162,14 +176,14 @@ module PostFeatureHelpers
     expect(page).to have_link "Edit post"
   end
 
-####
+# Friendly ids
 
   def then_i_should_be_able_to_link_to_it_by_name
     visit "/posts/#{post_1.slug}"
     expect(page).to have_content post_1.body
   end
 
-####
+# removes it from the db
 
   def when_i_view_the_post
     visit post_path(post_1)
@@ -185,13 +199,13 @@ module PostFeatureHelpers
     expect(page).to have_content "#{post_1.title} has been deleted"
   end
 
-####
+# No FAQ
 
   def then_i_should_not_be_able_to_see_the_faq
     expect(page).not_to have_link 'VU FAQ'
   end
 
-####
+# FAQ exists
 
   def given_an_FAQ_exists
     FactoryGirl.create(:post, title: "Valence utilitarianism FAQ")
@@ -201,20 +215,20 @@ module PostFeatureHelpers
     expect(page).to have_link 'VU FAQ'
   end
 
-####
+# Can't create posts
 
   def then_i_should_not_have_the_option_to_create_a_post
     expect(page).not_to have_content "New post"
   end
 
-####
+# Can't edit or delete posts
 
   def then_i_should_not_be_able_to_edit_or_delete_it
     expect(page).not_to have_content "Edit post"
     expect(page).not_to have_content "Delete post"
   end
 
-####
+# Can see links to published posts
 
   def given_a_published_post_exists
     post_1
@@ -224,13 +238,18 @@ module PostFeatureHelpers
     expect(page).to have_link post_1.title
   end
 
-####
-
-  def given_an_unpublished_post_exists
-    post_1.update(publish: false)
-  end
+# Can't see links to unpublished posts
 
   def then_i_should_not_see_a_link_to_the_post
     expect(page).not_to have_link post_1.title
+  end
+
+# Topics with no published posts aren't displayed
+  def given_only_an_unpublished_post_exists_with_topic_x
+    post_1.update(publish: false)
+  end
+
+  def then_i_should_not_see_topic_x
+    expect(page).not_to have_content post_1.topic
   end
 end

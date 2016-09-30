@@ -12,6 +12,8 @@ class Post < ApplicationRecord
   validates :title, :body, :topic, presence: true
   validates :authors, length: { minimum: 1 }
 
+  scope :published, -> { where publish: true }
+
   def self.in_topic topic
     where(
       "lower(topic) = ?",

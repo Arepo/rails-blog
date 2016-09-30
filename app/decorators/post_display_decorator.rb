@@ -33,7 +33,8 @@ class PostDisplayDecorator
   end
 
   def title
-    markdown.render(post.title).html_safe
+    publication_status = post.publish? ? '' : ' (unpublished)'
+    (markdown.render(post.title + publication_status)).html_safe
   end
 
   def to_param

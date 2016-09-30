@@ -80,6 +80,13 @@ describe "Posts", type: :feature do
         when_i_visit_the_homepage
         then_i_should_see_each_post_listed_under_its_topic
       end
+
+      scenario "Unpublished posts are visible but flagged" do
+        given_an_unpublished_post_exists
+        when_i_visit_the_homepage
+        then_i_should_see_a_link_to_the_post
+        but_it_should_be_flagged_as_unpublished
+      end
     end
 
     describe "Viewing a single post" do
@@ -140,6 +147,12 @@ describe "Posts", type: :feature do
       given_an_unpublished_post_exists
       when_i_visit_the_homepage
       then_i_should_not_see_a_link_to_the_post
+    end
+
+    scenario "Topics with no published posts aren't displayed" do
+      given_only_an_unpublished_post_exists_with_topic_x
+      when_i_visit_the_homepage
+      then_i_should_not_see_topic_x
     end
   end
 end

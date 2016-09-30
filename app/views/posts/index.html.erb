@@ -4,6 +4,7 @@
       <% @topics.in_groups_of(2, false).each do |group| %>
         <div class="row">
           <% group.each do |topic| %>
+            <% next if Post.published.in_topic(topic).none? && !current_user %>
             <div class="col-sm-6">
               <%= render 'topics', topic: topic %>
             </div>
