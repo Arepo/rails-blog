@@ -6,6 +6,12 @@
   padding: 63px 0;
 }
 
-article a {
+p a {
   text-decoration: underline;
 }
+
+h3 a:hover, h4 a:hover, h5 a:hover {
+  text-decoration: none;
+  color: #333
+}
+
