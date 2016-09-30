@@ -17,16 +17,10 @@ class PostDisplayDecorator
 
   def body
     html = markdown.render(post.body)
-    html.gsub(/(<h3>)(.*)(<\/h3)/) do
-      # TODO - Try and get this into a single operation. Tried with the regex
-      # /(<h3>)(.*)(<\/h3)|(<h4>)(.*)(<\/h4)|(<h5>)(.*)(<\/h5)/ but it returned the match data thus:
-      # #<MatchData "<h4>Mama header</h4" 1:nil 2:nil 3:nil 4:"<h4>" 5:"Mama header" 6:"</h4" 7:nil 8:nil 9:nil>
-      # for the second match, and so on for the third
-      add_anchors($1, $2, $3)
-    end.gsub(/(<h4>)(.*)(<\/h4)/) do
-      add_anchors($1, $2, $3)
-    end.gsub(/(<h5>)(.*)(<\/h5)/) do
-      add_anchors($1, $2, $3)
+    html.gsub(/(<h[3-5]>)(.*)(<\/h[3-5])/) do
+      # Catches h3, h4 and h5 tags and inserts an anchor between them
+      uri_safe_header = strip_tags($2).parameterize
+      $1 + "<a id=\"#{uri_safe_header}\">" + $2 + '</a>' + $3
     end.html_safe
   end
 
