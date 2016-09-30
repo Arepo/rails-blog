@@ -26,6 +26,7 @@ module PostFeatureHelpers
     fill_in "Title", with: "I am the Black Knight! I am invincible!"
     fill_in "Body", with: "How appropriate. You fight like a cow."
     fill_in "New topic", with: "Famous historical battles"
+    check "Publish?"
   end
 
   def and_submit_the_post

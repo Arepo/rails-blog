@@ -70,7 +70,7 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    @post_params ||= params.require(:post).permit(:title, :body, :topic, :new_topic)
+    @post_params ||= params.require(:post).permit(:title, :body, :topic, :new_topic, :publish)
   end
 
   def proceed_if_logged_in
