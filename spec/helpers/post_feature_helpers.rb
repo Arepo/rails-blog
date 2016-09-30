@@ -88,6 +88,17 @@ module PostFeatureHelpers
                                  "<h2>Headonistic</h2>"
   end
 
+# Displays date on which post was first published
+
+  def when_i_publish_the_post
+    when_i_edit_a_post
+    and_i_submit_all_the_fields
+  end
+
+  def then_it_should_display_the_date_of_original_publication
+    expect(page.text).to include "Published on #{Date.today}"
+  end
+
 # with fields missing
 
   def then_the_page_should_display_errors

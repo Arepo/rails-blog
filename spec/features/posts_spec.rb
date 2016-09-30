@@ -38,6 +38,14 @@ describe "Posts", type: :feature do
             then_it_should_display_with_html
           end
         end
+
+        context "Publication date" do
+          scenario "Displays date on which post was first published" do
+            given_an_unpublished_post_exists
+            when_i_publish_the_post
+            then_it_should_display_the_date_of_original_publication
+          end
+        end
       end
 
       context "unsuccessfully" do

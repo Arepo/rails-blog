@@ -79,6 +79,25 @@ describe Post do
     end
   end
 
+  context "Callbacks" do
+    let(:post_1) { FactoryGirl.create :post, publish: false }
+    let(:tomorrow) { Date.today + 1.day }
+
+    it "sets the publication date to the day of publication unless it has already been set" do
+      expect(post_1.publication_date).to be nil
+
+      post_1.update(publish: true)
+      expect(post_1.publication_date).to be Date.today
+
+      post_1.update(publish: false)
+      expect(post_1.publication_date).to be Date.today
+
+      expect(Date).to receive(:today).and_return tomorrow
+      post_1.update(publish: true)
+      expect(post_1.publication_date).to be Date.today
+    end
+  end
+
   context "scoping pseudo-scoping" do
 
     let!(:post_1) { FactoryGirl.create :post, topic: "Rites of ascension in Westeros" }
