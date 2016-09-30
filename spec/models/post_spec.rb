@@ -81,20 +81,20 @@ describe Post do
 
   context "Callbacks" do
     let(:post_1) { FactoryGirl.create :post, publish: false }
+    let(:today) { Date.today }
     let(:tomorrow) { Date.today + 1.day }
 
     it "sets the publication date to the day of publication unless it has already been set" do
-      expect(post_1.publication_date).to be nil
+      expect(post_1.published_on).to be nil
 
       post_1.update(publish: true)
-      expect(post_1.publication_date).to be Date.today
+      expect(post_1.published_on).to eq today
 
       post_1.update(publish: false)
-      expect(post_1.publication_date).to be Date.today
+      expect(post_1.published_on).to eq today
 
-      expect(Date).to receive(:today).and_return tomorrow
+      expect(Date).not_to receive(:today)
       post_1.update(publish: true)
-      expect(post_1.publication_date).to be Date.today
     end
   end
 

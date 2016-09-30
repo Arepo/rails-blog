@@ -1,5 +1,5 @@
 class Post < ApplicationRecord
-  # Added fields: body, title, topic
+  # Added fields: body, title, topic, publish
 
   extend FriendlyId
   friendly_id :title, use: [:slugged, :history]
@@ -13,6 +13,8 @@ class Post < ApplicationRecord
   validates :authors, length: { minimum: 1 }
 
   scope :published, -> { where publish: true }
+
+  before_save :set_publication_date, if: :newly_published?
 
   def self.in_topic topic
     where(
@@ -63,6 +65,14 @@ class Post < ApplicationRecord
   end
 
   private
+
+  def newly_published?
+    (changes.include? :publish) && !published_on
+  end
+
+  def set_publication_date
+    self.published_on = Date.today
+  end
 
   def update_tags tag_params
     updated_tags = extract_tags(tag_params)

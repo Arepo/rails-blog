@@ -96,7 +96,7 @@ module PostFeatureHelpers
   end
 
   def then_it_should_display_the_date_of_original_publication
-    expect(page.text).to include "Published on #{Date.today}"
+    expect(page.text).to include "#{Date.today}"
   end
 
 # with fields missing
