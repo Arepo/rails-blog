@@ -79,7 +79,7 @@ describe Post do
     end
   end
 
-  context "pseudo-scoping" do
+  context "scoping pseudo-scoping" do
 
     let!(:post_1) { FactoryGirl.create :post, topic: "Rites of ascension in Westeros" }
     let!(:post_2) { FactoryGirl.create :post, topic: "Rights of orcs in Middle Earth" }
@@ -108,6 +108,15 @@ describe Post do
         expect(Post.tagged_with(tag2)).to include post_2
 
         expect(Post.tagged_with(tag1, tag2)).to include post_1, post_2
+      end
+    end
+
+    context "published only" do
+      it "Finds all published posts" do
+        expect(Post.published).to include post_1, post_2
+
+        post_1.update(publish: false)
+        expect(Post.published).not_to include post_1
       end
     end
   end
