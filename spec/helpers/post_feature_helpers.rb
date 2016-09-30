@@ -153,21 +153,15 @@ module PostFeatureHelpers
   def then_i_should_see_each_post_listed_under_its_topic
     within("#blade-running") do
       expect(page).to have_content post_1.title
-      expect(page).to have_text Date.today
     end
 
     within("#dreaming-of-electric-sheep") do
       expect(page).to have_content post_2.title
-      expect(page).to have_text yesterday
     end
   end
 
-  def yesterday
-    @yesterday ||= Date.today - 1.day
-  end
-
   def post_2
-    @post_2 ||= FactoryGirl.create(:post, topic: "Dreaming of electric sheep", created_at: yesterday)
+    @post_2 ||= FactoryGirl.create(:post, topic: "Dreaming of electric sheep")
   end
 
 # Unpublished posts are visible but flagged
