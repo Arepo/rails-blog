@@ -213,4 +213,24 @@ module PostFeatureHelpers
     expect(page).not_to have_content "Edit post"
     expect(page).not_to have_content "Delete post"
   end
+
+####
+
+  def given_a_published_post_exists
+    post_1
+  end
+
+  def then_i_should_see_a_link_to_the_post
+    expect(page).to have_link post_1.title
+  end
+
+####
+
+  def given_an_unpublished_post_exists
+    post_1.update(publish: false)
+  end
+
+  def then_i_should_not_see_a_link_to_the_post
+    expect(page).not_to have_link post_1.title
+  end
 end

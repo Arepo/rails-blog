@@ -129,5 +129,17 @@ describe "Posts", type: :feature do
       when_i_view_the_post
       then_i_should_not_be_able_to_edit_or_delete_it
     end
+
+    scenario "Can see links to published posts" do
+      given_a_published_post_exists
+      when_i_visit_the_homepage
+      then_i_should_see_a_link_to_the_post
+    end
+
+    scenario "Can't see links to unpublished posts" do
+      given_an_unpublished_post_exists
+      when_i_visit_the_homepage
+      then_i_should_not_see_a_link_to_the_post
+    end
   end
 end
