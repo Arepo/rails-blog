@@ -1,4 +1,5 @@
 class PostDisplayDecorator
+  # TODO convert this to take in view, a la Ryan Bates 287 Presenters screencast
   include ActionView::Helpers::SanitizeHelper
 
   def self.render_multiple(strings)
@@ -55,11 +56,6 @@ class PostDisplayDecorator
 
   def self.markdown
     @markdown ||= Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true)
-  end
-
-  def add_anchors(opening_tag, contents, closing_tag)
-    uri_safe_header = strip_tags(contents).parameterize
-    opening_tag + "<a id=\"#{uri_safe_header}\">" + contents + '</a>' + closing_tag
   end
 
   def markdown
