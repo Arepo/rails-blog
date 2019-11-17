@@ -128,13 +128,13 @@ module PostFeatureHelpers
   end
 
   def and_i_modify_the_tags
-    uncheck Tag.first.name
+    uncheck Tag.first.name    
     fill_in "New tags", with: 'so hot right now'
     and_submit_the_post
   end
 
   def then_the_post_should_have_the_correct_tags
-    expect(post_1.tags.count).to be 2
+    expect(post_1.reload.tags.count).to be 2
     expect(post_1.tags.pluck :name).to include "tag2",
                                                "so hot right now"
   end

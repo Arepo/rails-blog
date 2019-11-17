@@ -35,7 +35,8 @@ gem 'friendly_id', '~> 5.1.0'
 
 group :development, :test do
   gem 'pry-rails'
-  gem 'poltergeist'
+  # gem 'poltergeist'
+  gem 'selenium-webdriver'
 end
 
 group :test do

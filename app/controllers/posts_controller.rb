@@ -51,6 +51,7 @@ class PostsController < ApplicationController
   def update
     # TODO Enable updating authors
     # TODO Delete tags when they're no longer in use
+
     @post = Post.friendly.find(params[:id])
 
     if @post.update_post_and_tags(post_params: post_params, tag_params: params[:tags])

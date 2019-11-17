@@ -48,11 +48,14 @@
       <%= @post.topic %>
       <h4>Tags</h4>
       <%= @post.list_tags %>
-      <p><%= link_to_if(current_user, 'Edit post', edit_post_path(@post)) {} %></p>
-      <p><%= link_to_if current_user, 'Delete post',
-          post_path(@post),
-          method: :delete,
-          data: { confirm: 'Definitely delete?' } {}
+      <p><%=  link_to_if(current_user, 'Edit post', edit_post_path(@post)) {} %></p>
+      <p><%= link_to_if(
+        current_user, 
+        'Delete post',
+        post_path(@post),
+        method: :delete,
+        data: { confirm: 'Definitely delete?' } 
+      ) {}
       %></p>
       <hr>
       <h4>Published</h4>
