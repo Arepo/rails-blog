@@ -9,7 +9,7 @@ services:
       - ./tmp/db:/var/lib/postgresql/data
   web:
     build: .
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    command: bash -c "rm -f tmp/pids/server.pid && RAILS_ENV=production bundle exec puma -C config/puma.rb"
     volumes:
       - .:/app
     ports:
@@ -19,4 +19,5 @@ services:
     environment:
       DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/rails-blog_production
       RAILS_MAX_THREADS: 5
-      RAILS-BLOG_DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+
