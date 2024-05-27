@@ -19,5 +19,4 @@ services:
     environment:
       DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/rails-blog_production
       RAILS_MAX_THREADS: 5
-      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
 
