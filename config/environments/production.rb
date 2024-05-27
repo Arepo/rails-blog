@@ -86,4 +86,5 @@ Rails.application.configure do
 
   # Whitelist the hostname on Back4App
   config.hosts << "valenceutilitarianismwebsite-g0vsp1u2.b4a.run"
+  config.hosts << "valence-utilitarianism.fly.dev"
 end
