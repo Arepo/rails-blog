@@ -16,5 +16,9 @@
 # Ignore Byebug command history file.
 .byebug_history
 
-*/.DS_Store
+*.DS_Store
 .env
+
+/config/master.key
+
+/config/credentials/production.key
