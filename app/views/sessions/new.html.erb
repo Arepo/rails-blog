@@ -20,6 +20,10 @@
             <%= f.check_box :remember_me %>
           </div>
 
+          <%# field to handle authenticity token %>
+          <%= f.input type: :hidden, name: :authenticity_token %>
+
+
           <%= f.submit "Log in", class: "btn btn-default" %>
         <% end %>
       <% else %>
