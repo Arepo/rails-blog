@@ -15,9 +15,12 @@ ENV BUNDLE_DEPLOYMENT="1" \
     BUNDLE_WITHOUT="development:test" \
     RAILS_ENV="production"
 
+ARG RUBYGEMS_VERSION=3.5.10
+ARG BUNDLER_VERSION=2.5.10
+
 # Update gems and bundler
-RUN gem update --system --no-document && \
-    gem install -N bundler
+RUN gem update --system "${RUBYGEMS_VERSION}" --no-document && \
+    gem install bundler --version "${BUNDLER_VERSION}" --no-document
 
 # Install packages needed to install nodejs
 RUN apt-get update -qq && \
