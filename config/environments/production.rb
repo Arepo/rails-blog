@@ -87,7 +87,8 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  # Whitelist the hostname on Back4App and Fly
+  # Whitelist the hostname on Back4App, Fly, and the public site
   config.hosts << "valenceutilitarianismwebsite-g0vsp1u2.b4a.run"
   config.hosts << "valence-utilitarianism.fly.dev"
+  config.hosts << "valence-utilitarianism.com"
 end
