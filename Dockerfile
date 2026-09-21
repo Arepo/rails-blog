@@ -2,7 +2,7 @@
 
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
 ARG RUBY_VERSION=3.0.7
-FROM ruby:$RUBY_VERSION-slim as base
+FROM ruby:$RUBY_VERSION-slim AS base
 
 LABEL fly_launch_runtime="rails"
 
@@ -23,7 +23,10 @@ RUN gem update --system "${RUBYGEMS_VERSION}" --no-document && \
     gem install bundler --version "${BUNDLER_VERSION}" --no-document
 
 # Install packages needed to install nodejs
-RUN apt-get update -qq && \
+RUN sed -i \
+      's|http://deb.debian.org/debian-security|http://snapshot.debian.org/archive/debian-security/20260903T220410Z|g' \
+      /etc/apt/sources.list && \
+    apt-get -o Acquire::Check-Valid-Until=false update -qq && \
     apt-get install --no-install-recommends -y curl && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
@@ -36,10 +39,10 @@ RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz
 
 
 # Throw-away build stage to reduce size of final image
-FROM base as build
+FROM base AS build
 
 # Install packages needed to build gems
-RUN apt-get update -qq && \
+RUN apt-get -o Acquire::Check-Valid-Until=false update -qq && \
     apt-get install --no-install-recommends -y build-essential libpq-dev
 
 # Build options
@@ -61,7 +64,7 @@ RUN SECRET_KEY_BASE=DUMMY ./bin/rails assets:precompile
 FROM base
 
 # Install packages needed for deployment
-RUN apt-get update -qq && \
+RUN apt-get -o Acquire::Check-Valid-Until=false update -qq && \
     apt-get install --no-install-recommends -y curl postgresql-client && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
